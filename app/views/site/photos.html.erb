@@ -1,0 +1,16 @@
+<p>Photos:</p>
+
+
+<p>
+  <%= @photos.collection.length %>
+</p>
+<ul>
+  <% @photos.collection.each do |photo| %>
+      <li>
+        <%= link_to photo.link_src do %>
+            <%= image_tag(photo.src, :title => photo.title, :alt => photo.title) %>
+        <% end %>
+      </li>
+  <% end %>
+</ul>
+

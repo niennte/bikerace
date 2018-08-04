@@ -1,0 +1,27 @@
+<!-- Navigation -->
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark p-3" id="topbar">
+  <div class="container my-0 py-0">
+    <a class="navbar-brand text-expanded font-weight-bold d-md-none" href="#">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav scrollNav">
+            <li class="nav-item pr-lg-5 welcome">
+              <%= link_to root_path, :class => "nav-link text-expanded" do %>
+                  <%= content_tag :span, "Welcome", :class => "logoLink" %>
+                  <%= content_tag :span, "(current)", :class => "sr-only" %>
+              <% end %>
+            </li>
+            <li class="nav-item pr-lg-5 about">
+              <%= link_to photos_path, :class => "nav-link text-expanded" do %>
+                  <%= content_tag :span, "Photos" %>
+              <% end %>
+            </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+
+      </ul>
+    </div>
+  </div>
+</nav>
