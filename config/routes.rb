@@ -4,4 +4,5 @@ Rails.application.routes.draw do
 
   root 'site#index'
   get '/photos/', to: 'site#photos'
+  get '/location', to: 'riders#location'
 end

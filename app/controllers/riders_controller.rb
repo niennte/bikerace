@@ -7,6 +7,10 @@ class RidersController < ApplicationController
     @riders = Rider.all
   end
 
+  # GET /location
+  def location
+  end
+
   # GET /riders/1
   # GET /riders/1.json
   def show
