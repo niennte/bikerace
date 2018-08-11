@@ -50,6 +50,14 @@ CUSTOM STYLES
   color: $neon-dark;
 }
 
+.athletic-red {
+  color: $athletic-red;
+}
+
+.athletic-blue {
+  color: $athletic-blue;
+}
+
 
 /* Header section */
 
@@ -125,65 +133,3 @@ a {
 
 
 
-
-/* Side menu */
-
-.sideMenu .list-group {
-  width: 100%;
-}
-
-.sideMenu {
-  font-size: 150%;
-}
-
-.sideMenu .list-group .list-group-item .nav-link:hover {
-  background: #fafafa;
-  color: $neon-mild-gray;
-  font-weight: 600;
-}
-
-.sideMenu .nav-link.active {
-  background: #fafafa;
-  box-shadow: -6px 0 0 $neon-green inset;
-  color: $neon-mild-gray;
-  font-weight: 600;
-}
-
-
-
-/* Schedule section */
-
-.card-body {
-  position: relative;
-}
-
-.screen {
-  position: absolute;
-  z-index: 10;
-  right:0;
-  top: 0;
-}
-
-
-
-
-/* Responsive type */
-
-.slender-heading.textSizeMedium {
-  font-size: 150%;
-}
-
-@media (min-width: 40em) {
-  .slender-heading {
-    font-size: 50px;
-  }
-
-  .slender-heading.textSizeMedium {
-    font-size: 175%;
-  }
-}
-
-@media (min-width: 62em) {
-  .slender-heading {
-  }
-}

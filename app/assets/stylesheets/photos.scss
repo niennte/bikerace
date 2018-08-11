@@ -1,3 +1,4 @@
+// Responsive styles for the card columns
 @media (min-width:376px) {
   .card-columns {
     column-count: 1;
@@ -14,66 +15,175 @@
   }
 }
 
-/* wall spacing */
+/* Masonry photo wall spacing */
 $wall-spacing: .3rem;
 
-.photos .card-columns {
-  column-gap: $wall-spacing;
+.photos {
+
+  // masonry wall using Bootstrap cards
+  .card-columns {
+    column-gap: $wall-spacing;
+  }
+
+  .card {
+    border: 0;
+    background-color: #000;
+    background-size: 100%;
+    background-position: center center;
+    transition: all .5s ease-in-out;
+    position: relative;
+    margin-bottom: $wall-spacing;
+
+    // placeholder image used for sizing the card
+    .img-fluid {
+      visibility: hidden;
+    }
+
+    // adjust vertical backgrounds to include faces
+    &.portrait {
+      background-position: center top;
+    }
+
+    // zoom background when the card is hovered
+    &:hover {
+      background-size: 103%;
+    }
+
+    // overlay over each card
+    &:after {
+      content: "";
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      position: absolute;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      transition: all .4s ease-in-out;
+      background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.45) 0%,
+        rgba(255,255,255,0.15) 30%,
+        rgba(255,255,255,0.15) 70%,
+        rgba(255,255,255,0.45) 100%
+      );
+      opacity: 1;
+    }
+
+    // fade overlay when the card is hovered
+    &:hover:after {
+      opacity:0;
+    }
+
+
+    .photoInfo {
+      position: absolute;
+      top: 11px;
+      right: 11px;
+      visibility: visible;
+      z-index: 3;
+    }
+
+    // icons within the card
+    .photoInfo a {
+      font-size: 250%;
+      opacity: 0;
+      display: inline-block;
+      padding: 5px;
+      transition: all .4s ease-in-out;
+      color: $athletic-red;
+    }
+
+    &:hover .photoInfo a {
+      opacity: 0.6;
+
+      &:hover {
+        opacity: 1;
+        color: $athletic-red;
+        text-decoration: none;
+      }
+    }
+  }
+
+  // load image to be shown in the modal
+  .zoom .img-fluid {
+    display: none;
+  }
+
+  /* modal lightbox styles */
+  .modal-profile {
+
+    // scale image vertically
+    &,
+    .modal-dialog,
+    .modal-content,
+    .modal-body {
+      height: 100%;
+      max-width: none;
+    }
+
+    // remove gap above the modal
+    .modal-dialog {
+      margin-top: 0 !important;
+    }
+
+    // remove spacing
+    .modal-body {
+      padding: 0;
+    }
+
+    // place close icon on top right
+    .close {
+      float: none;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      z-index:2;
+      color: $athletic-red;
+      text-shadow: none;
+      background: none;
+      opacity:1;
+    }
+
+    // remove default styling
+    .modal-content {
+      background: none;
+      border: 0;
+    }
+
+    .image-wrapper {
+      background: none;
+      display: block;
+      height: 100%;
+      width: 100%;
+
+      img {
+        object-fit: contain;
+        object-position: center center;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  /* Slide in on scroll styles */
+  .come-in {
+    transform: translateY(150px);
+    animation: come-in 0.8s ease forwards;
+  }
+  .come-in:nth-child(odd) {
+    animation-duration: 0.6s;
+  }
+  .already-visible {
+    transform: translateY(0);
+    animation: none;
+  }
+
+  @keyframes come-in {
+    to { transform: translateY(0); }
+  }
+
 }
 
-.photos .card .img-fluid {
-  visibility: hidden;
-}
 
-.photos .card {
-  border: 0;
-  background-color: #000;
-  background-size: 105%;
-  background-position: center center;
-  transition: all .5s ease-in-out;
-  position: relative;
-  margin-bottom: $wall-spacing;
-}
-
-
-
-.photos .card:hover {
-  background-size: 110%
-}
-
-.photos .card:after {
-  content: "";
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  transition: all .4s ease-in-out;
-
-  background: linear-gradient(to bottom, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.25) 30%, rgba(255,255,255,0.25) 70%,rgba(255,255,255,0.55) 100%);
-  opacity: 1;
-}
-
-.photos .card:hover:after {
-  opacity:0;
-}
-
-/* Slide in on scroll styles */
-.come-in {
-  transform: translateY(150px);
-  animation: come-in 0.8s ease forwards;
-}
-.come-in:nth-child(odd) {
-  animation-duration: 0.6s;
-}
-.already-visible {
-  transform: translateY(0);
-  animation: none;
-}
-
-@keyframes come-in {
-  to { transform: translateY(0); }
-}

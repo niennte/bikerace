@@ -2,7 +2,7 @@ require 'http'
 
 class FlickrClient
 
-  attr_reader :collection, :page, :perpage, :total
+  attr_reader :collection, :page, :perpage, :total, :pages
 
   API_KEY = ENV['API_KEY']
   SERVICE_URI = 'https://api.flickr.com/services/rest/'
@@ -13,8 +13,8 @@ class FlickrClient
     @params = {
         :method => 'flickr.photos.search',
         :api_key => API_KEY,
-        :tags => nil,
-        :tag_mode => 'All',
+        #:tags => nil,
+        #:tag_mode => 'All',
         :text => 'Colorado Boulder Bike Race',
         :license => '4,5,6,9,10',
         :safe_search => '1',
@@ -49,11 +49,20 @@ class FlickrClient
   def map_response
     parsed = JSON.parse @response
     @page = parsed["photos"]["page"]
+    @pages = parsed["photos"]["pages"]
     @perpage = parsed["photos"]["perpage"]
     @total = parsed["photos"]["total"]
     parsed["photos"]["photo"].each do |photo|
       @collection.push(Photo.new(photo))
     end
+  end
+
+  def has_previous_page
+    @page - 1 > 0
+  end
+
+  def has_next_page
+    @page + 1 <= @pages
   end
 
 end

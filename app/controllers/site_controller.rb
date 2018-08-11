@@ -2,7 +2,8 @@ class SiteController < ApplicationController
 
   # GET /photos
   def photos
-    @photos = FlickrClient.new.fetch(page: 1)
+    page = params[:page].to_i || 1
+    @photos = FlickrClient.new.fetch(page: page)
   end
 
 end

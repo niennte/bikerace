@@ -7,6 +7,9 @@ $neon-white: #fff;
 $neon-dark: #000;
 $neon-mild-gray: #868e96;
 
+$athletic-red: #ff0000;
+$athletic-blue: #0000ff;
+
 
 // Theme colors
 $white:  #fff !default;
@@ -49,8 +52,8 @@ $colors: (
 ) !default;
 
 $theme-colors: (
-        primary: $neon-fuchsia,
-        secondary: $neon-green,
+        primary: $athletic-red,
+        secondary: $athletic-blue,
         success: $green,
         info: $cyan,
         warning: $yellow,
