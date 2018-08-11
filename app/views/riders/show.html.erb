@@ -1,0 +1,22 @@
+<p id="notice"><%= notice %></p>
+<section class="py-5 container">
+
+<% @rider.extend(RiderView) %>
+<p>
+  <strong>Name:</strong>
+  <%= @rider.full_name %>
+</p>
+
+<p>
+  <strong>City of origin:</strong>
+  <%= @rider.city_of_origin %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @rider.current_location %>
+</p>
+
+<%= link_to 'Edit', edit_rider_path(@rider) %> |
+<%= link_to 'Back', riders_path %>
+</section>

@@ -7,17 +7,22 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav scrollNav">
-            <li class="nav-item pr-lg-5 welcome">
-              <%= link_to root_path, :class => "nav-link text-expanded" do %>
-                  <%= content_tag :span, "Welcome", :class => "logoLink" %>
-                  <%= content_tag :span, "(current)", :class => "sr-only" %>
-              <% end %>
-            </li>
-            <li class="nav-item pr-lg-5 about">
-              <%= link_to photos_path, :class => "nav-link text-expanded" do %>
-                  <%= content_tag :span, "Photos" %>
-              <% end %>
-            </li>
+        <li class="nav-item pr-lg-5 welcome <%= css_active(welcome_page?) %>">
+          <%= link_to root_path, :class => "nav-link text-expanded" do %>
+              <%= content_tag :span, 'Welcome', :class => "logoLink" %>
+              <%= content_tag :span, "(current)", :class => "sr-only" %>
+          <% end %>
+        </li>
+        <li class="nav-item pr-lg-5 about <%= css_active(photos_page?) %>">
+          <%= link_to photos_path, :class => "nav-link text-expanded" do %>
+              <%= content_tag :span, 'Photos' %>
+          <% end %>
+        </li>
+        <li class="nav-item pr-lg-5 about <%= css_active(riders_page?) %>">
+          <%= link_to riders_path, :class => "nav-link text-expanded" do %>
+              <%= content_tag :span, 'Riders' %>
+          <% end %>
+        </li>
       </ul>
       <ul class="navbar-nav ml-auto">
 

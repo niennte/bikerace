@@ -117,10 +117,16 @@ a {
   color: $neon-white;
 }
 
-.footer a {
-  color: #70726F;
-  padding: 10px;
-  transition: all .5s ease;
+.footer .nav-item {
+  a {
+    color: #70726F;
+    padding: 10px;
+    transition: all .5s ease;
+  }
+
+  &.active a {
+    color: $athletic-red;
+  }
 }
 
 .footer .social-media a {
