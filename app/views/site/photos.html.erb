@@ -2,9 +2,7 @@
   <h1 class="pt-4 text-muted text-center">Photos</h1>
   <h4 class="text-muted text-center">Viewing page <%= @photos.page %> of <%= @photos.pages %></h4>
   <h4 class="text-muted text-center">Total photos: <%= @photos.total %> </h4>
-
   <%= render 'pagination', collection: @photos %>
-
 </div>
 
 <div class="container-fluid py-5 photos">
@@ -20,25 +18,17 @@
                 :class => "card-img-top img-fluid b-0 m-0 p-0"
             ) %>
         <div class="photoInfo">
-
           <a href="#" title="View larger image" class="zoom fa fa-search " data-toggle="modal" data-target=".modal-profile-lg" >
             <img class="img-fluid" src="<%= photo.src %>" />
           </a>
           <br/>
           <%= link_to '', photo.link_src, :class => "flickr fa fa-flickr", :title => 'View on Flickr', :target => '_blank' %>
-
         </div>
       </div>
     <% end %>
-
   </div>
-
 </div>
 
 <%= render 'pagination', collection: @photos %>
-
-<%= javascript_include_tag "photos-scroll-slide", "data-turbolinks-track" => true  %>
-<%= javascript_include_tag "photos-lightbox", "data-turbolinks-track" => true  %>
-
 <%= render 'modal' %>
 

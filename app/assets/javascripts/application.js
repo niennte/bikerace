@@ -16,4 +16,7 @@
 //= require jquery3
 //= require popper
 //= require bootstrap
-// require_tree .
+//= require photos-lightbox
+//= require mapbox-gl
+//= require location
+//= require_tree .

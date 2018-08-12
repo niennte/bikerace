@@ -27,7 +27,7 @@ $wall-spacing: .3rem;
 
   .card {
     border: 0;
-    background-color: #000;
+    background-color: #fff;
     background-size: 100%;
     background-position: center center;
     transition: all .5s ease-in-out;
@@ -165,23 +165,6 @@ $wall-spacing: .3rem;
         height: 100%;
       }
     }
-  }
-
-  /* Slide in on scroll styles */
-  .come-in {
-    transform: translateY(150px);
-    animation: come-in 0.8s ease forwards;
-  }
-  .come-in:nth-child(odd) {
-    animation-duration: 0.6s;
-  }
-  .already-visible {
-    transform: translateY(0);
-    animation: none;
-  }
-
-  @keyframes come-in {
-    to { transform: translateY(0); }
   }
 
 }

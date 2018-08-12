@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).on("turbolinks:load", function() {
     /* show lightbox when clicking a thumbnail */
     $('a.zoom').click(function(event){
         event.preventDefault();
