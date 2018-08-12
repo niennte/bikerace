@@ -52,7 +52,7 @@ Rider.create(
       last_name: 'Molina',
       city: 'Tucson',
       state: 'AZ',
-      latitude: 39.9,
+      latitude: 39.96,
       longitude: -105.22
     },
     {
