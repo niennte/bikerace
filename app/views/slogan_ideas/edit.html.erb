@@ -1,0 +1,17 @@
+<% @slogan_idea.extend(SloganIdeaView) %>
+<%= render 'notifications', model: @slogan_idea  %>
+
+<section class="py-5 container <%= css_crud %>">
+  <div class="card crud" style="width: 25rem;">
+
+    <h3 class="card-title text-center pb-2">Editing <%= @slogan_idea.label %></h3>
+
+    <%= render 'form', slogan_idea: @slogan_idea %>
+
+    <nav class="nav justify-content-center">
+      <%= link_to 'Show', @slogan_idea, :class => 'item nav-link border-right' %>
+      <%= link_to 'Back', slogan_ideas_path, :class => 'item nav-link' %>
+    </nav>
+
+  </div>
+</section>

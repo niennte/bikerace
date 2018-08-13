@@ -1,0 +1,10 @@
+
+<% if notice.present? %>
+  <div id="notice" class="text-center <%= css_success(true) %>" role="alert"><%= notice %>
+  </div>
+<% end %>
+<% if model.errors.any? %>
+    <div class="text-center <%= css_warning(true) %>" role="alert">
+      Coudn't save <%= model.label %>.
+    </div>
+<% end %>

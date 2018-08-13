@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+<section class="py-5 container">
+
+<h1 class="text-center">Slogan Ideas Contest</h1>
+
+<table class="table table-bordered">
+  <thead class="thead-light text-center">
+    <tr>
+      <th>Author</th>
+      <th>Idea</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @slogan_ideas.each do |slogan_idea| %>
+      <% slogan_idea.extend(SloganIdeaView) %>
+      <tr>
+        <td><%= slogan_idea.author %></td>
+        <td><%= slogan_idea.idea %></td>
+        <td><%= link_to 'Show', slogan_idea %></td>
+        <td><%= link_to 'Edit', edit_slogan_idea_path(slogan_idea) %></td>
+        <td><%= link_to 'Destroy', slogan_idea, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+  <nav class="nav justify-content-center">
+    <%= link_to 'New Slogan Idea', new_slogan_idea_path %>
+  </nav>
+</section>

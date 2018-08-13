@@ -15,4 +15,8 @@ module NavigationHelper
   def location_page?
     controller_name == 'riders' && action_name == 'location'
   end
+
+  def contest_page?
+    controller_name == 'slogan_ideas'
+  end
 end

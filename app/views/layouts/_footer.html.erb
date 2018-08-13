@@ -12,17 +12,20 @@
       <div class="col-12 col-md-7 mt-5 mt-md-4 text-md-center">
         <h5>
           <ul class="nav">
-            <li class="nav-item pr-lg-5 welcome  <%= css_active(welcome_page?) %>">
-              <%= link_to 'Welcome', root_path, :class => "nav-link welcome" %>
+            <li class="nav-item pr-lg-5 welcome <%= css_active(welcome_page?) %>">
+              <%= link_to 'Welcome', root_path, :class => "nav-link" %>
             </li>
-            <li class="nav-item pr-lg-5 photos  <%= css_active(photos_page?) %>">
-              <%= link_to 'Photos', photos_path, :class => "nav-link photos" %>
+            <li class="nav-item pr-lg-5 photos <%= css_active(photos_page?) %>">
+              <%= link_to 'Photos', photos_path, :class => "nav-link" %>
             </li>
-            <li class="nav-item pr-lg-5 riders  <%= css_active(riders_page?) %>">
-              <%= link_to 'Riders', riders_path, :class => "nav-link riders" %>
+            <li class="nav-item pr-lg-5 riders <%= css_active(riders_page?) %>">
+              <%= link_to 'Riders', riders_path, :class => "nav-link" %>
             </li>
-            <li class="nav-item pr-lg-5 location  <%= css_active(location_page?) %>">
-              <%= link_to 'Location', location_path, :class => "nav-link location" %>
+            <li class="nav-item pr-lg-5 location <%= css_active(location_page?) %>">
+              <%= link_to 'Location', location_path, :class => "nav-link" %>
+            </li>
+            <li class="nav-item pr-lg-5 contest <%= css_active(contest_page?) %>">
+              <%= link_to 'Contest', slogan_ideas_path, :class => "nav-link" %>
             </li>
           </ul>
         </h5>

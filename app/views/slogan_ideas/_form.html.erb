@@ -1,0 +1,39 @@
+<%= form_with(model: slogan_idea, local: true) do |form| %>
+  <% if slogan_idea.errors.any? %>
+    <div id="error_explanation" class="<%= css_warning(true) %>">
+      <h2>Please correct <%= pluralize(slogan_idea.errors.count, "error") %>:</h2>
+
+      <ul>
+      <% slogan_idea.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <% errors = slogan_idea.errors %>
+
+  <div class="field form-group <%= css_danger(errors.include? :first_name) %>">
+    <%= form.label :first_name %>:
+    <%= form.text_field :first_name, :class => "form-control" %>
+  </div>
+
+  <div class="field form-group <%= css_danger(errors.include? :last_name) %>">
+    <%= form.label :last_name %>:
+    <%= form.text_field :last_name, :class => "form-control" %>
+  </div>
+
+  <div class="field form-group <%= css_danger(errors.include? :email) %>">
+    <%= form.label :email %> address:
+    <%= form.text_field :email, :class => "form-control" %>
+  </div>
+
+  <div class="field form-group <%= css_danger(errors.include? :idea) %>">
+    <%= form.label :idea %>:
+    <%= form.text_area :idea, :class => "form-control" %>
+  </div>
+
+  <div class="actions text-center">
+    <%= form.submit %>
+  </div>
+<% end %>

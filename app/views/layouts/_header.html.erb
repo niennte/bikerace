@@ -28,6 +28,11 @@
               <%= content_tag :span, 'Location' %>
           <% end %>
         </li>
+        <li class="nav-item pr-lg-5 contest <%= css_active(contest_page?) %>">
+          <%= link_to slogan_ideas_path, :class => "nav-link text-expanded" do %>
+              <%= content_tag :span, 'Contest' %>
+          <% end %>
+        </li>
       </ul>
       <ul class="navbar-nav ml-auto">
 

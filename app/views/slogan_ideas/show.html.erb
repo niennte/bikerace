@@ -1,0 +1,33 @@
+<% @slogan_idea.extend(SloganIdeaView) %>
+<%= render 'notifications', model: @slogan_idea  %>
+
+<section class="py-5 container <%= css_crud %>">
+
+  <div class="card crud" style="width: 25rem;">
+
+    <h3 class="card-title text-center pb-2"><%= @slogan_idea.label %></h3>
+
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item text-center">
+        <strong>Author:</strong>
+        <%= @slogan_idea.author %>
+      </li>
+      <li class="list-group-item text-center">
+        <strong>Email address:</strong>
+        <%= @slogan_idea.email %>
+      </li>
+      <li class="list-group-item text-center">
+        <strong>Slogan Idea:</strong>
+        <blockquote class="blockquote text-center">
+        <%= @slogan_idea.idea %>
+        </blockquote>
+      </li>
+    </ul>
+
+    <nav class="nav justify-content-center">
+    <%= link_to 'Edit', edit_slogan_idea_path(@slogan_idea), :class => 'item nav-link border-right' %>
+    <%= link_to 'Back', slogan_ideas_path, :class => 'item nav-link' %>
+    </nav>
+  </div>
+
+</section>
