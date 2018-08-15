@@ -5,5 +5,6 @@ Rails.application.routes.draw do
 
   root 'site#index'
   get '/photos/', to: 'site#photos'
+  get '/gallery/', to: 'site#gallery'
   get '/location', to: 'riders#location'
 end
