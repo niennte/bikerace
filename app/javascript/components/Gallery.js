@@ -4,20 +4,22 @@ import PropTypes from "prop-types"
 // @TODO: refactor into a components image placeholder and image info
 // @TODO refactor the modal and lightbox using reactstrap
 
-class HelloWorld extends React.Component {
+class Gallery extends React.Component {
     constructor(props) {
         super(props)
     }
   render () {
     return (
       <React.Fragment>
-        <h1>Photos</h1>
-        <p>Page: {this.props.collection.page}</p>
-        <p>Par page: {this.props.collection.perpage}</p>
-        <p>Pages: {this.props.collection.pages}</p>
-        <p>Has next: {this.props.collection.has_next_page ? 'true' : 'false'}</p>
-        <p>Has previous: {this.props.collection.has_previous_page ? 'true' : 'false'}</p>
-        <p>Collection: {this.props.collection.collection.length}</p>
+          <div className = "container">
+            <h1 className="">Photos</h1>
+          </div>
+        {/*<p>Page: {this.props.collection.page}</p>*/}
+        {/*<p>Par page: {this.props.collection.perpage}</p>*/}
+        {/*<p>Pages: {this.props.collection.pages}</p>*/}
+        {/*<p>Has next: {this.props.collection.has_next_page ? 'true' : 'false'}</p>*/}
+        {/*<p>Has previous: {this.props.collection.has_previous_page ? 'true' : 'false'}</p>*/}
+        {/*<p>Collection: {this.props.collection.collection.length}</p>*/}
 
           <div className="container-fluid py-5 photos">
               <div className="card-columns">
@@ -55,7 +57,7 @@ class HelloWorld extends React.Component {
   }
 }
 
-HelloWorld.propTypes = {
+Gallery.propTypes = {
   greeting: PropTypes.string
 };
-export default HelloWorld
+export default Gallery

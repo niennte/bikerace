@@ -74,7 +74,7 @@ $wall-spacing: .3rem;
 
     // fade overlay when the card is hovered
     &:hover:after {
-      opacity:0;
+      background: linear-gradient(45deg, rgba(224,239,249,0) 0%, rgba(224,239,249,0) 72%, rgba(14,32,102,1) 100%);
     }
 
 
