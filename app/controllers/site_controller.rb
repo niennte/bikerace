@@ -9,7 +9,8 @@ class SiteController < ApplicationController
   # GET /gallery
   def gallery
     page = params[:page].to_i || 1
-    @photos = FlickrClient.new.fetch(page: page)
+    perpage = params[:perpage] && params[:perpage].to_i || 40
+    @photos = FlickrClient.new.fetch_json(page: page, per_page: perpage)
   end
 
 end

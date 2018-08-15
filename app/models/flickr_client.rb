@@ -40,6 +40,15 @@ class FlickrClient
     self
   end
 
+  def fetch_json(page: nil, per_page: PER_PAGE)
+    @params[:page] = page
+    @params[:per_page] = per_page
+    compose_request
+    @response = JSON.parse HTTP.get(@request)
+    map_response_to_json
+    package
+  end
+
   def compose_request
     @uri = URI.parse(SERVICE_URI)
     @uri.query = URI.encode_www_form(@params)
@@ -57,12 +66,34 @@ class FlickrClient
     end
   end
 
+  def map_response_to_json
+    @page = @response["photos"]["page"]
+    @pages = @response["photos"]["pages"]
+    @perpage = @response["photos"]["perpage"]
+    @total = @response["photos"]["total"]
+    @response["photos"]["photo"].each do |photo|
+      @collection.push(Photo.new(photo).package)
+    end
+  end
+
   def has_previous_page
     @page - 1 > 0
   end
 
   def has_next_page
     @page + 1 <= @pages
+  end
+  
+  def package
+    {
+      :collection => @collection,
+      :page => @page,
+      :perpage => @perpage,
+      :total => @total,
+      :pages => @pages,
+      :has_next_page => has_next_page,
+      :has_previous_page => has_previous_page
+  }
   end
 
 end

@@ -40,4 +40,15 @@ class Photo
     "https://www.flickr.com/photos/#{@spec[:owner]}/#{@spec[:id]}"
   end
 
+  def package
+    {
+      :src => @src,
+      :title => @title,
+      :link_src => @link_src,
+      :height => @height,
+      :width => @width,
+      :orientation => @orientation
+    }
+  end
+
 end
