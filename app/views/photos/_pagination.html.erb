@@ -2,19 +2,19 @@
   <ul class="pagination pagination-lg justify-content-center">
 
     <li class="page-item  <%= css_disabled(!collection.has_previous_page) %>">
-      <%= link_to '&laquo;'.html_safe, { page: collection.page - 1, perpage: collection.perpage }, :class => "page-link" %>
+      <%= link_to '&laquo;'.html_safe, { page: collection.page - 1, page_size: collection.page_size }, :class => "page-link" %>
     </li>
 
     <% collection.paginator.map do |page| %>
 
     <li class="page-item <%= css_active(collection.page == page) %>">
-      <%= link_to (page).to_s, { page: page, perpage: collection.perpage }, :class => "page-link" %>
+      <%= link_to (page).to_s, { page: page, page_size: collection.page_size }, :class => "page-link" %>
     </li>
 
     <% end %>
 
     <li class="page-item  <%= css_disabled(!collection.has_next_page) %>">
-      <%= link_to '&raquo;'.html_safe, { page: collection.page + 1, perpage: collection.perpage }, :class => "page-link" %>
+      <%= link_to '&raquo;'.html_safe, { page: collection.page + 1, page_size: collection.page_size }, :class => "page-link" %>
     </li>
 
   </ul>

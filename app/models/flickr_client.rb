@@ -2,13 +2,13 @@ require 'http'
 
 class FlickrClient
 
-  attr_reader :collection, :page, :perpage, :total, :pages
+  attr_reader :collection, :page, :page_size, :total, :pages
 
   API_KEY = ENV['API_KEY']
   SERVICE_URI = 'https://api.flickr.com/services/rest/'
 
-  PER_PAGE = 40
-  PAGINATOR_RANGE = 5
+  DEFAULT_PAGE_SIZE = 40
+  DEFAULT_PAGINATOR_RANGE = 5
 
   def initialize
     @params = {
@@ -27,14 +27,14 @@ class FlickrClient
     }
     @page	= nil
     @pages = nil
-    @perpage = nil
+    @page_size = nil
     @total = 0
     @collection = []
   end
 
-  def fetch(page: nil, per_page: PER_PAGE)
+  def fetch(page: nil, page_size: DEFAULT_PAGE_SIZE)
     @params[:page] = page
-    @params[:per_page] = per_page
+    @params[:per_page] = page_size
     compose_request
     call_service
     map_response
@@ -54,7 +54,7 @@ class FlickrClient
   def map_response
     @page = @response["photos"]["page"]
     @pages = @response["photos"]["pages"]
-    @perpage = @response["photos"]["perpage"]
+    @page_size = @response["photos"]["perpage"]
     @total = @response["photos"]["total"]
     @response["photos"]["photo"].each do |photo|
       @collection.push(Photo.new(photo).result )
@@ -69,12 +69,12 @@ class FlickrClient
     @page + 1 <= @pages
   end
 
-  def paginator
-    range = (1..PAGINATOR_RANGE)
-    if (@page - PAGINATOR_RANGE / 2) > 0 && (@page + PAGINATOR_RANGE / 2) <= @pages
-      range = ((@page - PAGINATOR_RANGE / 2)..(@page + PAGINATOR_RANGE / 2))
-    elsif (@page - (PAGINATOR_RANGE / 2)) > 0 && @page + PAGINATOR_RANGE >= @pages
-      range = ((@pages - (PAGINATOR_RANGE - 1))..@pages)
+  def paginator(paginator_range: DEFAULT_PAGINATOR_RANGE)
+    range = (1..paginator_range)
+    if (@page - paginator_range / 2) > 0 && (@page + paginator_range / 2) <= @pages
+      range = ((@page - paginator_range / 2)..(@page + paginator_range / 2))
+    elsif (@page - (paginator_range / 2)) > 0 && @page + paginator_range >= @pages
+      range = ((@pages - (paginator_range - 1))..@pages)
     end
     range.to_a
   end
@@ -83,7 +83,7 @@ class FlickrClient
     ObjectLiteral.new(
       :collection => @collection,
       :page => @page,
-      :perpage => @perpage,
+      :page_size => @page_size,
       :total => @total,
       :pages => @pages,
       :has_next_page => has_next_page,
