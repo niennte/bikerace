@@ -14,16 +14,16 @@ class Gallery extends React.Component {
           <div className = "container">
             <h1 className="">Photos</h1>
           </div>
-        {/*<p>Page: {this.props.collection.page}</p>*/}
-        {/*<p>Par page: {this.props.collection.perpage}</p>*/}
-        {/*<p>Pages: {this.props.collection.pages}</p>*/}
-        {/*<p>Has next: {this.props.collection.has_next_page ? 'true' : 'false'}</p>*/}
-        {/*<p>Has previous: {this.props.collection.has_previous_page ? 'true' : 'false'}</p>*/}
-        {/*<p>Collection: {this.props.collection.collection.length}</p>*/}
+        {/*<p>Page: {this.props.flickr.page}</p>*/}
+        {/*<p>Par page: {this.props.flickr.perpage}</p>*/}
+        {/*<p>Pages: {this.props.flickr.pages}</p>*/}
+        {/*<p>Has next: {this.props.flickr.has_next_page ? 'true' : 'false'}</p>*/}
+        {/*<p>Has previous: {this.props.flickr.has_previous_page ? 'true' : 'false'}</p>*/}
+        {/*<p>Collection: {this.props.flickr.collection.length}</p>*/}
 
           <div className="container-fluid py-5 photos">
               <div className="card-columns">
-                  {this.props.collection.collection.map((image, i) => {
+                  {this.props.flickr.collection.map((image, i) => {
                       const className = `card b-0 p-0 ${image.orientation} height-${image.height} width-${image.width}`;
                       const style = {
                           backgroundImage: `url(${image.src})`

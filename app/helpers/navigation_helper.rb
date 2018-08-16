@@ -5,7 +5,7 @@ module NavigationHelper
   end
 
   def photos_page?
-    controller_name == 'site' && (action_name == 'photos' || action_name == 'gallery')
+    controller_name == 'photos'
   end
 
   def riders_page?

@@ -11,18 +11,18 @@ class FlickrClient
 
   def initialize
     @params = {
-        :method => 'flickr.photos.search',
-        :api_key => API_KEY,
-        #:tags => nil,
-        #:tag_mode => 'All',
-        :text => 'Colorado Boulder Bike Race',
-        :license => '4,5,6,9,10',
-        :safe_search => '1',
-        :format => 'json',
-        :nojsoncallback => '1',
-        :page => nil,
-        :per_page => nil,
-        :extras => 'url_' + Photo.default
+      :method => 'flickr.photos.search',
+      :api_key => API_KEY,
+      #:tags => nil,
+      #:tag_mode => 'All',
+      :text => 'Colorado Boulder Bike Race',
+      :license => '4,5,6,9,10',
+      :safe_search => '1',
+      :format => 'json',
+      :nojsoncallback => '1',
+      :page => nil,
+      :per_page => nil,
+      :extras => 'url_' + Photo.default
     }
     @page	= nil
     @pages = nil
@@ -35,18 +35,13 @@ class FlickrClient
     @params[:page] = page
     @params[:per_page] = per_page
     compose_request
-    @response = HTTP.get(compose_request).body
+    call_service
     map_response
-    self
+    result
   end
 
-  def fetch_json(page: nil, per_page: PER_PAGE)
-    @params[:page] = page
-    @params[:per_page] = per_page
-    compose_request
+  def call_service
     @response = JSON.parse HTTP.get(@request)
-    map_response_to_json
-    package
   end
 
   def compose_request
@@ -56,23 +51,12 @@ class FlickrClient
   end
 
   def map_response
-    parsed = JSON.parse @response
-    @page = parsed["photos"]["page"]
-    @pages = parsed["photos"]["pages"]
-    @perpage = parsed["photos"]["perpage"]
-    @total = parsed["photos"]["total"]
-    parsed["photos"]["photo"].each do |photo|
-      @collection.push(Photo.new(photo))
-    end
-  end
-
-  def map_response_to_json
     @page = @response["photos"]["page"]
     @pages = @response["photos"]["pages"]
     @perpage = @response["photos"]["perpage"]
     @total = @response["photos"]["total"]
     @response["photos"]["photo"].each do |photo|
-      @collection.push(Photo.new(photo).package)
+      @collection.push(Photo.new(photo).result )
     end
   end
 
@@ -84,8 +68,8 @@ class FlickrClient
     @page + 1 <= @pages
   end
   
-  def package
-    {
+  def result
+    ObjectLiteral.new(
       :collection => @collection,
       :page => @page,
       :perpage => @perpage,
@@ -93,7 +77,7 @@ class FlickrClient
       :pages => @pages,
       :has_next_page => has_next_page,
       :has_previous_page => has_previous_page
-  }
+  )
   end
 
 end
