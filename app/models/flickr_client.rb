@@ -8,6 +8,7 @@ class FlickrClient
   SERVICE_URI = 'https://api.flickr.com/services/rest/'
 
   PER_PAGE = 40
+  PAGINATOR_RANGE = 5
 
   def initialize
     @params = {
@@ -67,6 +68,16 @@ class FlickrClient
   def has_next_page
     @page + 1 <= @pages
   end
+
+  def paginator
+    range = (1..PAGINATOR_RANGE)
+    if (@page - PAGINATOR_RANGE / 2) > 0 && (@page + PAGINATOR_RANGE / 2) <= @pages
+      range = ((@page - PAGINATOR_RANGE / 2)..(@page + PAGINATOR_RANGE / 2))
+    elsif (@page - (PAGINATOR_RANGE / 2)) > 0 && @page + PAGINATOR_RANGE >= @pages
+      range = ((@pages - (PAGINATOR_RANGE - 1))..@pages)
+    end
+    range.to_a
+  end
   
   def result
     ObjectLiteral.new(
@@ -76,7 +87,8 @@ class FlickrClient
       :total => @total,
       :pages => @pages,
       :has_next_page => has_next_page,
-      :has_previous_page => has_previous_page
+      :has_previous_page => has_previous_page,
+      :paginator => paginator
   )
   end
 
