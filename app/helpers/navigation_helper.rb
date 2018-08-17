@@ -9,11 +9,11 @@ module NavigationHelper
   end
 
   def riders_page?
-    controller_name == 'riders' && action_name != 'location'
+    controller_name == 'riders' && action_name != 'location' && action_name != 'map'
   end
 
   def location_page?
-    controller_name == 'riders' && action_name == 'location'
+    (controller_name == 'riders' && action_name == 'location') || (controller_name == 'riders' && action_name == 'map')
   end
 
   def contest_page?

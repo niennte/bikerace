@@ -33,6 +33,24 @@ class RidersController < ApplicationController
   def location
   end
 
+  # GET /map
+  def map
+    @riders = Rider.all.map do |rider|
+      rider.extend(RiderView)
+      {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [rider.longitude, rider.latitude]
+        },
+        properties: {
+          id: rider.id,
+          popupContent: render_to_string(partial: 'riders/rider.html', locals: { rider: rider })
+        },
+      }
+    end
+  end
+
   # GET /riders/1
   # GET /riders/1.json
   def show
