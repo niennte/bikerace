@@ -4,6 +4,12 @@ import helpers from "./helpers";
 class Pagination extends React.Component {
     constructor(props) {
         super(props)
+        this.handleLink = this.handleLink.bind(this)
+    }
+
+    handleLink(e) {
+        e.preventDefault();
+        this.props.getPage(e.currentTarget.href);
     }
 
     render () {
@@ -16,7 +22,12 @@ class Pagination extends React.Component {
                     <ul className="pagination pagination-lg justify-content-center mb-0">
 
                         <li className={ `page-item ${helpers.cssDisabled(!collection.has_previous_page)}` }>
-                            <a className="page-link" href={`?page=${collection.page - 1}&page_size=${collection.page_size}`} aria-label="Previous">
+                            <a
+                                className="page-link"
+                                href={`?page=${collection.page - 1}&page_size=${collection.page_size}`}
+                                aria-label="Previous"
+                                onClick = {this.handleLink}
+                            >
                                 <span aria-hidden="true">&laquo;</span>
                                 <span className="sr-only">Previous</span>
                             </a>
@@ -27,13 +38,19 @@ class Pagination extends React.Component {
                             <li key={page} className={ `page-item ${helpers.cssActive(page == collection.page)}` }>
                                 <a 
                                     href={ `?page=${page}&page_size=${collection.page_size}` }
-                                    className="page-link">{page}</a>
+                                    className="page-link"
+                                    onClick = {this.handleLink}
+                                >{page}</a>
                             </li>
                             )
                         }) }
 
                         <li className={ `page-item ${helpers.cssDisabled(!collection.has_next_page)}` }>
-                            <a className="page-link" href={`?page=${collection.page + 1}&page_size=${collection.page_size}`} aria-label="Next">
+                            <a
+                                className="page-link"
+                                href={`?page=${collection.page + 1}&page_size=${collection.page_size}`} aria-label="Next"
+                                onClick = {this.handleLink}
+                            >
                                 <span aria-hidden="true">&raquo;</span>
                                 <span className="sr-only">Next</span>
                             </a>

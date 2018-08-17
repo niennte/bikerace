@@ -1,2 +1,2 @@
-<%= react_component("Gallery", { flickr: @flickr }, {prerender: true}) %>
+<%= react_component("Gallery", { flickr: @flickr, service: request.base_url + '/' + photos_path }, {prerender: true}) %>
 <%= render 'modal' %>
