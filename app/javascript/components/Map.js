@@ -1,5 +1,5 @@
 import React from "react"
-import ReactMapboxGl, { Source, Layer } from "react-mapbox-gl";
+import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
 
 class Map extends React.Component {
 
@@ -7,11 +7,19 @@ class Map extends React.Component {
         super(props)
 
         this.SERVICE_PATH = props.service
+        this.ACCESS_TOKEN = "pk.eyJ1Ijoibmllbm50ZSIsImEiOiJjamo0ajE5aDgxajJhM2twZzB4cWRxNXFzIn0.wrH52IDoERpZGasQNOjUXg"
+        this.SCROLL_ZOOM = false
+        this.STYLE = "mapbox://styles/niennte/cjkq17rc713z82rmtgieaipke"
+        this.CONTAINER_SYLE = {
+            height: "80vh",
+            width: "100%"
+        };
 
         let riders = this.constructor.geoJSON(props.riders)
         let coordinates = this.constructor.extractCoordinates(riders)
-        
+
         this.state = {
+            rider: null,
             riders: riders,
             coordinates: coordinates,
             mapBounds: this.calculateMapBounds(coordinates)
@@ -22,6 +30,7 @@ class Map extends React.Component {
 
     static geoJSON(riders) {
         return riders.map(function (feature) {
+            feature.properties.riderId = feature.properties.id;
             feature.properties.icon = "bicycle";
             feature.properties.description = feature.properties.popupContent;
             delete feature.properties.popupContent;
@@ -82,13 +91,24 @@ class Map extends React.Component {
         this.map.state.map.fitBounds(this.state.mapBounds)
     }
 
+    onToggleHover(cursorState) {
+        this.map.state.map.getCanvas().style.cursor = cursorState;
+    }
+
+    markerClick(e) {
+        new mapboxgl.Popup()
+            .setLngLat(e.feature.geometry.coordinates)
+            .setHTML(e.feature.properties.description)
+            .addTo(this.map.state.map);
+    }
 
     render () {
 
-        const { riders, coordinates, mapBounds  } = this.state
+        const { riders, mapBounds  } = this.state
 
         const RaceMap = ReactMapboxGl({
-            accessToken: "pk.eyJ1Ijoibmllbm50ZSIsImEiOiJjamo0ajE5aDgxajJhM2twZzB4cWRxNXFzIn0.wrH52IDoERpZGasQNOjUXg"
+            accessToken: this.ACCESS_TOKEN,
+            scrollZoom: this.SCROLL_ZOOM
         });
 
         const geoJSONSourceOptions = {
@@ -101,7 +121,7 @@ class Map extends React.Component {
         const layerLayoutOptions = {
             "icon-image": "us-state",
             "icon-allow-overlap": true,
-            "text-field": "{id}",
+            "text-field": "{riderId}",
             "text-size": 9,
             "text-allow-overlap": true
         };
@@ -111,29 +131,33 @@ class Map extends React.Component {
 
         return (
             <React.Fragment>
-               <p>{this.SERVICE_PATH}</p>
-
                 <div className="container-fluid m-0 p-0">
 
                     <RaceMap
-                        // this provides the precious reference to the map!
+                        // reference to the map vi this.map.state.map
                         ref={(e) => { this.map = e; }}
-                        style="mapbox://styles/niennte/cjkq17rc713z82rmtgieaipke?new"
-                        containerStyle={{
-                            height: "80vh",
-                            width: "100%"
-                        }}
+                        style={this.STYLE}
+                        containerStyle={this.CONTAINER_SYLE}
                         fitBounds={mapBounds}
                         onResize={this.applyMapBounds}
-                        >
-                        <Source id="source_id" geoJsonSource={geoJSONSourceOptions} />
+                    >
                         <Layer
                             type="symbol"
                             id="bikerace"
-                            sourceId="source_id"
                             layout={layerLayoutOptions}
                             paint={layerPaintOptions}
-                        />
+                        >
+                        {riders.map((rider, index) => (
+                            <Feature
+                                key={index}
+                                onMouseEnter={this.onToggleHover.bind(this, 'pointer')}
+                                onMouseLeave={this.onToggleHover.bind(this, '')}
+                                onClick={this.markerClick.bind(this)}
+                                coordinates={rider.geometry.coordinates}
+                                properties={rider.properties}
+                            />
+                        ))}
+                        </Layer>
                     </RaceMap>
                 </div>
 
