@@ -4,7 +4,7 @@ class RidersController < ApplicationController
   # GET /riders
   # GET /riders.json
   def index
-    @riders = Rider.all
+    @riders = Rider.all.order('id')
 
     respond_to do |format|
       format.html
@@ -21,6 +21,33 @@ class RidersController < ApplicationController
               id: rider.id,
               popupContent: render_to_string(partial: 'riders/rider.html', locals: { rider: rider})
             },
+          }
+        end
+        render json: geojson
+      end
+    end
+  end
+
+  # GET /list
+  # GET /list.json
+  def list
+    @riders = Rider.all
+
+    respond_to do |format|
+      format.html
+      format.json do
+        geojson = @riders.map do |rider|
+          rider.extend(RiderView)
+          {
+              type: 'Feature',
+              geometry: {
+                  type: 'Point',
+                  coordinates: [rider.longitude, rider.latitude]
+              },
+              properties: {
+                  id: rider.id,
+                  popupContent: render_to_string(partial: 'riders/rider.html', locals: { rider: rider})
+              },
           }
         end
         render json: geojson
