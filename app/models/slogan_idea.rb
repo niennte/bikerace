@@ -7,6 +7,7 @@ class SloganIdea < ApplicationRecord
 
   validates :email, format: { with: EMAIL_FORMAT, message: 'Please provide a valid email address.' }
 
+  validates :idea, presence: true
   validates :idea, length: { maximum: 50, message: 'cannot be longer than 50 characters.'}
 
 end

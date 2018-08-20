@@ -1,6 +1,12 @@
 class SloganIdeasController < ApplicationController
   before_action :set_slogan_idea, only: [:show, :edit, :update, :destroy]
 
+  # GET /contest
+  # GET /contest.json
+  def contest
+    @slogan_idea = SloganIdea.new
+  end
+
   # GET /slogan_ideas
   # GET /slogan_ideas.json
   def index
