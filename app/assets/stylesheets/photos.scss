@@ -26,6 +26,39 @@ $wall-spacing: .3rem;
     column-gap: $wall-spacing;
   }
 
+  .photoInfo {
+    position: absolute;
+    top: 11px;
+    right: 11px;
+    visibility: visible;
+    z-index: 3;
+  }
+
+  // icons within the card
+  .photoInfo a {
+    font-size: 250%;
+    opacity: 1;
+    display: inline-block;
+    padding: 5px;
+    transition: all .4s ease-in-out;
+    color: $athletic-red;
+  }
+
+  .lightBoxModal .photoInfo a {
+    font-size: 350%;
+    opacity: 0.5;
+    display: inline-block;
+    padding: 5px;
+    transition: all .4s ease-in-out;
+    color: $athletic-red;
+  }
+
+  .lightBoxModal .photoInfo a:hover {
+    text-decoration: none;
+    opacity:1;
+  }
+
+
   .card {
     border: 0;
     background-color: #fff;
@@ -77,23 +110,9 @@ $wall-spacing: .3rem;
       background: linear-gradient(45deg, rgba(224,239,249,0) 0%, rgba(224,239,249,0) 72%, rgba(14,32,102,1) 100%);
     }
 
-
-    .photoInfo {
-      position: absolute;
-      top: 11px;
-      right: 11px;
-      visibility: visible;
-      z-index: 3;
-    }
-
-    // icons within the card
     .photoInfo a {
       font-size: 250%;
       opacity: 0;
-      display: inline-block;
-      padding: 5px;
-      transition: all .4s ease-in-out;
-      color: $athletic-red;
     }
 
     &:hover .photoInfo a {
@@ -113,6 +132,7 @@ $wall-spacing: .3rem;
   }
 
   /* modal lightbox styles */
+  .lightBoxModal,
   .modal-profile {
 
     // scale image vertically
