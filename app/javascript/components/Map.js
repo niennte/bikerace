@@ -6,7 +6,7 @@ import ReactMapboxGl, { Layer, Feature, Popup } from "react-mapbox-gl";
 const token = "pk.eyJ1Ijoibmllbm50ZSIsImEiOiJjamo0ajE5aDgxajJhM2twZzB4cWRxNXFzIn0.wrH52IDoERpZGasQNOjUXg";
 
 const styles = {
-    style: "mapbox://styles/niennte/cjkq17rc713z82rmtgieaipke",
+    style: "mapbox://styles/niennte/cjl5jp5tg3l8p2tqfr5v2eqig",
     containerStyle: {
         height: "80vh",
         width: "100%"
@@ -14,15 +14,16 @@ const styles = {
 };
 
 const layerLayoutOptions = {
-    "icon-image": "us-state",
+    "icon-image": "bicycle-rider",
     "icon-allow-overlap": true,
-    "text-field": "{riderId}",
+    "text-field": "#{riderId}",
     "text-size": 9,
+    "text-offset": [-0.8, -0.8],
     "text-allow-overlap": true
 };
 
 const layerPaintOptions = {
-    "text-color": "#ff0000"
+    "text-color": "#000000"
 };
 
 const StyledPopup = styled.div`
