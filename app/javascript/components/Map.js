@@ -1,22 +1,60 @@
 import React from "react"
-import ReactMapboxGl, { Layer, Feature } from "react-mapbox-gl";
+import styled from "styled-components";
+import ReactMapboxGl, { Layer, Feature, Popup } from "react-mapbox-gl";
+
+
+const token = "pk.eyJ1Ijoibmllbm50ZSIsImEiOiJjamo0ajE5aDgxajJhM2twZzB4cWRxNXFzIn0.wrH52IDoERpZGasQNOjUXg";
+
+const styles = {
+    style: "mapbox://styles/niennte/cjkq17rc713z82rmtgieaipke",
+    containerStyle: {
+        height: "80vh",
+        width: "100%"
+    }
+};
+
+const layerLayoutOptions = {
+    "icon-image": "us-state",
+    "icon-allow-overlap": true,
+    "text-field": "{riderId}",
+    "text-size": 9,
+    "text-allow-overlap": true
+};
+
+const layerPaintOptions = {
+    "text-color": "#ff0000"
+};
+
+const StyledPopup = styled.div`
+  background: white;
+  color: #3f618c;
+  font-weight: 400;
+  padding: 5px;
+  border-radius: 2px;
+`;
+
+const StyledButton = styled.button`
+    position: absolute;
+    right: -11px;
+    top: -10px;
+    padding: 2px 9px;
+`;
+
+
+const Mapbox = ReactMapboxGl({
+    accessToken: token,
+    scrollZoom: false
+});
+
 
 class Map extends React.Component {
 
     constructor(props) {
-        super(props)
+        super(props);
+        this.SERVICE_PATH = props.service;
 
-        this.SERVICE_PATH = props.service
-        this.ACCESS_TOKEN = "pk.eyJ1Ijoibmllbm50ZSIsImEiOiJjamo0ajE5aDgxajJhM2twZzB4cWRxNXFzIn0.wrH52IDoERpZGasQNOjUXg"
-        this.SCROLL_ZOOM = false
-        this.STYLE = "mapbox://styles/niennte/cjkq17rc713z82rmtgieaipke"
-        this.CONTAINER_SYLE = {
-            height: "80vh",
-            width: "100%"
-        };
-
-        let riders = this.constructor.geoJSON(props.riders)
-        let coordinates = this.constructor.extractCoordinates(riders)
+        let riders = props.riders;
+        let coordinates = this.constructor.extractCoordinates(riders);
 
         this.state = {
             rider: null,
@@ -28,20 +66,10 @@ class Map extends React.Component {
         this.applyMapBounds = this.applyMapBounds.bind(this)
     }
 
-    static geoJSON(riders) {
-        return riders.map(function (feature) {
-            feature.properties.riderId = feature.properties.id;
-            feature.properties.icon = "bicycle";
-            feature.properties.description = feature.properties.popupContent;
-            delete feature.properties.popupContent;
-            return feature;
-        });
-    }
-
     static extractCoordinates(riders) {
         return riders
             .map(function (feature) {
-                return feature.geometry.coordinates;
+                return feature.coordinates;
             }) // omit entries with no coordinates
             .filter(function(coordinates) {
                 return coordinates[0] && coordinates[1];
@@ -71,20 +99,6 @@ class Map extends React.Component {
         ];
     }
 
-    calculateMapCenter(coordinatePairs) {
-        const sums = coordinatePairs
-            .reduce(function (sum, coords) {
-                return [
-                    (sum[0]) + (coords[0]),
-                    (sum[1]) + (coords[1])
-                ];
-            }, [0.00, 0.00]);
-        return sums.map(function (sum) {
-            return sum / coordinatePairs.length;
-        });
-    }
-
-
     applyMapBounds() {
         // this.map points to the React wrapper
         // the actual map is stored as this.map.state.map
@@ -96,48 +110,36 @@ class Map extends React.Component {
     }
 
     markerClick(e) {
-        new mapboxgl.Popup()
-            .setLngLat(e.feature.geometry.coordinates)
-            .setHTML(e.feature.properties.description)
-            .addTo(this.map.state.map);
+        this.setState({
+            rider: {
+                id: e.feature.properties.riderId,
+                position: e.feature.geometry.coordinates,
+                name: e.feature.properties.full_name,
+                origin: e.feature.properties.city_of_origin
+            }
+        });
     }
+
+    popupCloseClick(e) {
+        this.setState({
+            rider: null
+        })
+    }
+
 
     render () {
 
-        const { riders, mapBounds  } = this.state
-
-        const RaceMap = ReactMapboxGl({
-            accessToken: this.ACCESS_TOKEN,
-            scrollZoom: this.SCROLL_ZOOM
-        });
-
-        const geoJSONSourceOptions = {
-            "type": "geojson",
-            "data": {
-                "type": "FeatureCollection",
-                "features": riders
-            }
-        };
-        const layerLayoutOptions = {
-            "icon-image": "us-state",
-            "icon-allow-overlap": true,
-            "text-field": "{riderId}",
-            "text-size": 9,
-            "text-allow-overlap": true
-        };
-        const layerPaintOptions = {
-            "text-color": "#ff0000"
-        };
+        const { riders, mapBounds, rider  } = this.state;
 
         return (
             <React.Fragment>
                 <div className="container-fluid m-0 p-0">
 
-                    <RaceMap
+                    <Mapbox
                         // reference to the map vi this.map.state.map
                         ref={(e) => { this.map = e; }}
-                        style={this.STYLE}
-                        containerStyle={this.CONTAINER_SYLE}
+                        style={styles.style}
+                        containerStyle={styles.containerStyle}
                         fitBounds={mapBounds}
                         onResize={this.applyMapBounds}
                     >
@@ -150,15 +152,44 @@ class Map extends React.Component {
                         {riders.map((rider, index) => (
                             <Feature
                                 key={index}
-                                onMouseEnter={this.onToggleHover.bind(this, 'pointer')}
-                                onMouseLeave={this.onToggleHover.bind(this, '')}
+                                onMouseEnter={this.onToggleHover.bind(this, "pointer")}
+                                onMouseLeave={this.onToggleHover.bind(this, "")}
                                 onClick={this.markerClick.bind(this)}
-                                coordinates={rider.geometry.coordinates}
+                                coordinates={rider.coordinates}
                                 properties={rider.properties}
                             />
                         ))}
                         </Layer>
-                    </RaceMap>
+                        {rider && (
+                            <Popup
+                                key={rider.id}
+                                coordinates={rider.position}
+                                closeButton={true} >
+                                <StyledPopup className="text-center">
+                                    <StyledButton
+                                        className="btn btn-sm btn-warning rounded-circle"
+                                        onClick={this.popupCloseClick.bind(this)}>
+                                        x
+                                    </StyledButton>
+                                    <p>
+                                        <span className="badge badge-primary">
+                                            #{rider.id}
+                                        </span>
+                                        <br/>
+                                        <a className="badge badge-info" href={this.SERVICE_PATH + '/' + rider.id}>
+                                            {rider.name}
+                                        </a>
+                                        <br/>
+                                        <span className="badge">
+                                            {rider.origin}
+                                        </span>
+                                    </p>
+
+                                </StyledPopup>
+                            </Popup>
+                        )}
+
+                    </Mapbox>
                 </div>
 
             </React.Fragment>

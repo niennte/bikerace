@@ -18,7 +18,7 @@
 //= require bootstrap
 //= require jquery.countdown
 //= require countdown
-//= require photos-lightbox
-//= require mapbox-gl
-//= require location
+// require photos-lightbox
+// require mapbox-gl
+// require location
 //= require_tree .

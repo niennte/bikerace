@@ -10,4 +10,15 @@ module RiderView
   def current_location
     "Lat: #{latitude}, lon: #{longitude}"
   end
+
+  def for_react
+    {
+        coordinates: [longitude, latitude],
+        properties: {
+            riderId: id,
+            full_name: full_name,
+            city_of_origin: city_of_origin
+        }
+    }
+  end
 end
