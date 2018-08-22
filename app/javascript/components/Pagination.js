@@ -18,8 +18,8 @@ class Pagination extends React.Component {
 
         return (
             <React.Fragment>
-                <nav aria-label="Page navigation for a collection of results">
-                    <ul className="pagination pagination-lg justify-content-center mb-0">
+                <nav aria-label="Page navigation for a collection of results bg-dark">
+                    <ul className="pagination pagination justify-content-center mb-5">
 
                         <li className={ `page-item ${helpers.cssDisabled(!collection.has_previous_page)}` }>
                             <a

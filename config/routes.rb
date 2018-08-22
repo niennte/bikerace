@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   root 'site#index'
+  get '/kitchensink/', to: 'site#kitchensink'
+
   get '/photos-static/', to: 'photos#photos'
   get '/photos/', to: 'photos#gallery'
   get '/location-static', to: 'riders#location'

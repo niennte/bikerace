@@ -1,23 +1,24 @@
 // Responsive styles for the card columns
 @media (min-width:376px) {
   .card-columns {
-    column-count: 1;
+    column-count: 2;
   }
 }
 @media (min-width:476px) {
   .card-columns {
-    column-count: 2;
+    column-count: 3;
   }
 }
 @media (min-width:776px) {
   .card-columns {
-    column-count: 3;
+    column-count: 4;
   }
 }
 
 /* Masonry photo wall spacing */
-$wall-spacing: .3rem;
+$wall-spacing: 1rem;
 
+.kitchensink,
 .gallery,
 .photos {
 
@@ -76,6 +77,10 @@ $wall-spacing: .3rem;
     // adjust vertical backgrounds to include faces
     &.portrait {
       background-position: center top;
+    }
+
+    &.lanscape {
+      background-position: center center;
     }
 
     // zoom background when the card is hovered

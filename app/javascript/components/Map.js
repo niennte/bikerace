@@ -134,7 +134,7 @@ class Map extends React.Component {
                 <div className="container-fluid m-0 p-0">
 
                     <RaceMap
-                        // reference to the map vi this.map.state.map
+                        // reference to the map via this.map.state.map
                         ref={(e) => { this.map = e; }}
                         style={this.STYLE}
                         containerStyle={this.CONTAINER_SYLE}

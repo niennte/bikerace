@@ -1,0 +1,215 @@
+
+<style>
+
+  #myVideo {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+  }
+
+  .content {
+    position: absolute;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: #f1f1f1;
+    width: 100%;
+    padding: 20px;
+  }
+
+  #myBtn {
+    width: 200px;
+    font-size: 18px;
+    padding: 10px;
+    border: none;
+    background: #000;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  #myBtn:hover {
+    background: #ddd;
+    color: black;
+  }
+
+    #photos {
+      background: grey;
+    }
+
+</style>
+
+<!-- Heading -->
+<div class="jumbotron bg-dark mb-0 d-flex align-items-center flex-column justify-content-center position-relative" id="header" style="
+  height: 88vh !important;
+">
+
+<video autoplay muted loop id="myVideo">
+  <source src="<%= image_path('506502_0127_comp.mp4') %>" type="video/mp4">
+  Your browser does not support HTML5 video.
+</video>
+
+  <div class="content">
+    <div class="container ">
+
+      <h1 class="slender-heading neon-white text-center">
+        The Boulder Bike Tour
+      </h1>
+
+      <h4 class="athletic-orange slender-heading callout ml-2 text-center">
+        Coming up April 1, 2020
+      </h4>
+
+      <div class="countDownWrap">
+        <div id="countdown" class="countdownHolder">
+        </div>
+        <div id="note" class="text-white-50">
+        </div>
+      </div>
+
+    </div>
+
+    <button id="myBtn" onclick="myFunction()">Pause</button>
+  </div>
+
+</div>
+
+
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top p-3 stikies topMenu " id="topbar">
+  <div class="container my-0 py-0">
+    <a class="navbar-brand text-expanded font-weight-bold d-md-none" href="#">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav scrollNav">
+        <li class="nav-item pr-lg-5">
+          <a class="nav-link text-expanded" href="#header">Home
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item px-lg-5">
+          <a class="nav-link text-expanded" href="#about">About
+          </a>
+        </li>
+        <li class="nav-item px-lg-5">
+          <a class="nav-link text-expanded" href="#photos">Photos
+          </a>
+        </li>
+        <li class="nav-item px-lg-5">
+          <a class="nav-link text-expanded" href="#riders">Riders
+          </a>
+        </li>
+        <li class="nav-item px-lg-5">
+          <a class="nav-link text-expanded" href="#location">Map
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item pl-lg-5">
+          <a class="nav-link text-expanded preRegister" href="#pre-register" data-toggle="modal">Contest</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<!-- About -->
+<section class="pt-4 pt-md-5 pb-4 mb-0 " id="about">
+  <div class="container my-5 text-md-center ">
+    <h4 class="display-4 text-center text-muted">
+      About
+    </h4>
+    <h5 class=" text-muted slender-heading textSizeMedium"><span class="text-secondary">The Boulder Bike Tour</span> is an awesome sed lectus vestibulum.
+    </h5>
+    <p class="lead">
+      Et tortor consequat id porta nibh venenatis. Iaculis eu non diam phasellus vestibulum lorem.
+    </p>
+    <p class="col-md-8 mx-md-auto text-left">
+      Vel eros donec ac odio tempor orci. Volutpat diam ut venenatis tellus in metus vulputate. Scelerisque viverra mauris in aliquam sem. Curabitur gravida arcu ac tortor dignissim. Dictum at tempor commodo ullamcorper a. Sed enim ut sem viverra aliquet. Enim blandit volutpat maecenas volutpat blandit. Hac habitasse platea dictumst quisque sagittis purus.
+    </p>
+
+  </div>
+</section>
+
+<!-- Photos -->
+<section id="photos" class="py-5">
+  <h4 class="display-4 text-center athletic-red">
+    Flickr gallery
+  </h4>
+  <%= react_component("Gallery", { flickr: @flickr, service: request.base_url + '/' + photos_path }, {prerender: true}) %>
+</section>
+
+<!-- Riders -->
+<section class="container py-5" id="riders">
+  <h4 class="display-4 text-center text-muted">
+    Riders
+  </h4>
+  <%= render 'riders/index' %>
+</section>
+
+<!-- Map -->
+<section id="location" class="pt-5">
+  <h4 class="display-4 text-center text-muted">
+    Map
+  </h4>
+<%= react_component("Map", { riders: @locations, service: request.base_url + '/' + riders_path }, {prerender: false}) %>
+</section>
+
+
+<!-- Slogan Idea Contest -->
+<div id="pre-register" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="prModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="prModalLabel" class="text-primary">Suggest a Slogan Idea</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
+
+      <div class="modal-body">
+        <% @slogan_idea.extend(SloganIdeaView) %>
+        <%= render 'slogan_ideas/form', slogan_idea: @slogan_idea %>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+        <button class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+    // Fluid Scrollspy
+    $(function () {
+        $('.scrollNav a').on('click', function (e) {
+            e.preventDefault();
+            $('html, body').animate({
+                scrollTop: $(this.hash).offset().top - 70
+            }, 1000);
+        });
+    });
+    // Offset value accounts for sticky top bar
+    $('body').scrollspy({offset: 110});
+</script>
+
+<script>
+    var video = document.getElementById("myVideo");
+    var btn = document.getElementById("myBtn");
+
+    function myFunction() {
+        if (video.paused) {
+            video.play();
+            btn.innerHTML = "Pause";
+        } else {
+            video.pause();
+            btn.innerHTML = "Play";
+        }
+    }
+</script>
+
