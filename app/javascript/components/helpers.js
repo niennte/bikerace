@@ -1,9 +1,12 @@
 const helpers = {
-    cssActive: function (isActive) {
-        return isActive ? "active" : "";
+    cssActive: function (applies) {
+        return applies ? "active" : "";
     },
-    cssDisabled: function (isDisabled) {
-        return isDisabled ? "disabled" : "";
+    cssDisabled: function (applies) {
+        return applies ? "disabled" : "";
+    },
+    cssLoading: function (applies) {
+        return applies ? "show-loader" : "";
     }
 };
 

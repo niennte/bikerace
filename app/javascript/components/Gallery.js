@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import Pagination from "./Pagination"
+import Lightbox from "./Lightbox"
 import axios from "axios"
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
@@ -16,7 +17,9 @@ class Gallery extends React.Component {
         this.state = {
             flickr: this.indexImages(props.flickr),
             modal: false,
-            currentImage: {}
+            currentImage: {},
+            pageLoaded: false,
+            loading: null
         };
         this.getPage = this.getPage.bind(this);
         this.handleModalOpen = this.handleModalOpen.bind(this);
@@ -56,50 +59,46 @@ class Gallery extends React.Component {
                         currentImage: currentImage
                     });
                 }
+                this.setState({
+                    pageLoaded: true
+                });
             });
     }
 
-    loadNextImage(e) {
-        e.preventDefault()
-        let id = parseInt(e.currentTarget.dataset.id) + 1
-        let currentImage = this.state.flickr.collection[id]
+    loadImage(imageID, direction) {
+        let currentImage = this.state.flickr.collection[imageID]
         if (!currentImage) {
             let url = new URL(window.location);
-            url.search = '?' + 'page=' + (this.state.flickr.page + 1) + '&page_size=' + (this.state.flickr.page_size)
+            let page = (direction == 'next') ? this.state.flickr.page + 1 : this.state.flickr.page - 1;
+            url.search = '?' + 'page=' + page + '&page_size=' + (this.state.flickr.page_size);
             let service = url.protocol + "//" + url.host + url.pathname + url.search;
-            this.getPage(service, 'next')
+            this.getPage(service, direction)
         } else {
             this.setState({
                 currentImage: currentImage
             });
         }
+    }
+
+
+    loadNextImage(e) {
+        e.preventDefault();
+        let id = parseInt(e.currentTarget.dataset.id) + 1;
+        this.loadImage(id, "next")
     }
 
     loadPreviousImage(e) {
-        e.preventDefault()
-        let id = parseInt(e.currentTarget.dataset.id) - 1
-        let currentImage = this.state.flickr.collection[id]
-        if (!currentImage) {
-            let url = new URL(window.location);
-            url.search = '?' + 'page=' + (this.state.flickr.page - 1) + '&page_size=' + (this.state.flickr.page_size)
-            let service = url.protocol + "//" + url.host + url.pathname + url.search;
-            this.getPage(service, 'previous')
-        } else {
-            this.setState({
-                currentImage: currentImage
-            });
-        }
+        e.preventDefault();
+        let id = parseInt(e.currentTarget.dataset.id) - 1;
+        this.loadImage(id, "previous")
     }
 
     handleModalOpen(e) {
-        e.preventDefault()
-        let id = e.currentTarget.dataset.id
-        let currentImage = this.state.flickr.collection[id]
-        this.setState((prevState) => {
-            let state =  {
-                currentImage: currentImage
-            };
-            return state;
+        e.preventDefault();
+        let id = e.currentTarget.dataset.id;
+        let currentImage = this.state.flickr.collection[id];
+        this.setState({
+            currentImage: currentImage
         });
         this.toggleModal()
     }
@@ -110,15 +109,20 @@ class Gallery extends React.Component {
         });
     }
 
+
+
   render () {
 
-    const { flickr, modal, currentImage } = this.state
+    const { flickr, modal, currentImage, pageLoaded, loading } = this.state;
 
     return (
       <React.Fragment>
       <div className = "container" >
       <Pagination
           getPage = {this.getPage}
+          pageLoaded={pageLoaded}
+          loading={loading}
+
           collection = {flickr} />
       </div>
 
@@ -155,59 +159,15 @@ class Gallery extends React.Component {
           </div>
       </div>
 
-          <Modal
-              isOpen={modal}
-              toggle={this.toggleModal}
-              className="lightBoxModal my-0"
-              style={{}}>
-
-
-              <div className="photoInfo h-100 d-flex align-content-center align-items-center"
-              style={{
-                  width: "100%",
-                  top: "0"
-              }}>
-                  <a href="#"
-                     data-id={currentImage.id}
-                     className = "next fa fa-chevron-right"
-                     style={{
-                         position: "absolute",
-                         right: "7px"
-                     }}
-                     title='View next image'
-                     onClick={this.loadNextImage}
-                  />
-                  <br />
-                  <a href="#"
-                     data-id={currentImage.id}
-                     className = "previous fa fa-chevron-left"
-                     style={{
-                         position: "absolute",
-                         left: "13px"
-                     }}
-                     title='View next image'
-                     onClick={this.loadPreviousImage}
-                  />
-              </div>
-
-              <div className="photoInfo">
-                  <a className="fa fa-times" onClick={this.toggleModal} />
-
-                  <br/>
-                  <a href={currentImage.link_src}
-                     className = "flickr fa fa-flickr"
-                     title = 'View on Flickr'
-                     target = '_blank'
-                  />
-              </div>
-
-
-              <ModalBody>
-                  <div className="image-wrapper">
-                    <img src={currentImage.src} className="img-fluid" />
-                  </div>
-              </ModalBody>
-          </Modal>
+      <Lightbox
+          modal={modal}
+          currentImage={currentImage}
+          loading={pageLoaded}
+          handleModalOpen={this.handleModalOpen}
+          toggleModal={this.toggleModal}
+          loadNextImage={this.loadNextImage}
+          loadPreviousImage={this.loadPreviousImage}
+      />
 
       </React.Fragment>
     );
