@@ -116,19 +116,20 @@ class Gallery extends React.Component {
 
     return (
       <React.Fragment>
-      <div className = "container">
-          <Pagination
-              getPage = {this.getPage}
-              collection = {flickr} />
+      <div className = "container" >
+      <Pagination
+          getPage = {this.getPage}
+          collection = {flickr} />
       </div>
-      <div className="container-fluid p-0 photos">
+
+      <div className="container p-0 photos">
           <div className="card-columns">
               {flickr.collection.map((image, i) => {
                   const className = `card b-0 p-0 ${image.orientation} height-${image.height} width-${image.width}`;
                   const style = {
                       backgroundImage: `url(${image.src})`
                   };
-                  const placeholderSrc = image.orientation == 'landscape' ? `//placehold.it/${image.width}x${image.height}/000` : `//placehold.it/${image.height}x${image.width}/000`
+                  const placeholderSrc = image.orientation == 'landscape' ? `//placehold.it/${image.width}x${image.height}/000` : `//placehold.it/${image.width}x${(image.height*0.6)}/000`
                   return (
                       <div className={className} style={style} key={i}>
                         <img className = "card-img-top img-fluid b-0 m-0 p-0" src={placeholderSrc} alt="" />

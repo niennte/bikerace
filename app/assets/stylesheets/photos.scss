@@ -11,19 +11,28 @@
 }
 @media (min-width:776px) {
   .card-columns {
-    column-count: 3;
+    column-count: 4;
   }
 }
 
 /* Masonry photo wall spacing */
-$wall-spacing: .3rem;
+$wall-spacing: 1.3rem;
 
 .gallery,
 .photos {
 
+  &.gallery-container {
+    background: $gray-300;
+    padding-bottom: ($wall-spacing * 2);
+  }
+
   // masonry wall using Bootstrap cards
   .card-columns {
+    background: $gray-400;
     column-gap: $wall-spacing;
+    padding-top: $wall-spacing;
+    padding-right: $wall-spacing;
+    padding-left: $wall-spacing;
   }
 
   .photoInfo {
