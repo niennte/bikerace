@@ -17,13 +17,14 @@ class Gallery extends React.Component {
         this.direction = "next";
         this.servicePath = "";
         this.browserPath = "";
+        this.search = "";
 
         this.state = {
             flickr: this.indexImages(props.flickr),
             modal: false,
             currentImage: {},
             AJAXCallInProgress: false,
-            layout: "masonry"
+            layout: props.layout
         };
         this.getPage = this.getPage.bind(this);
         this.handleModalOpen = this.handleModalOpen.bind(this);
@@ -60,17 +61,22 @@ class Gallery extends React.Component {
     }
 
     buildPaths(url, search) {
-        this.servicePath = url.protocol + "//" + url.host + url.pathname + ".json" + search;
-        this.browserPath = url.protocol + "//" + url.host + url.pathname + search;
+        this.servicePath = url.protocol + "//" + url.host + url.pathname + ".json" + this.search;
+        this.browserPath = url.protocol + "//" + url.host + url.pathname + this.search;
     }
 
-    getPage(page, pageSize) {
-        // make module portable
-        const url = new URL(window.location);
+    buildSearch(page, pageSize, layout) {
         page = page || this.state.flickr.page;
         pageSize = pageSize || this.state.flickr.page_size;
-        const search = "?" + "page=" + page + "&page_size=" + pageSize;
-        this.buildPaths(url, search);
+        layout = layout || this.state.layout;
+        this.search = "?" + "page=" + page + "&page_size=" + pageSize + "&layout=" + layout;
+    }
+
+    getPage(page, pageSize, layout) {
+        // make module portable
+        const url = new URL(window.location);
+        this.buildSearch(page, pageSize, layout)
+        this.buildPaths(url, this.search);
 
         axios.get(this.servicePath)
             .then(response => {
@@ -145,6 +151,12 @@ class Gallery extends React.Component {
     }
 
     changeLayout(layout) {
+        const page = this.state.flickr.page;
+        const pageSize = this.state.flickr.page_size;
+        const url = new URL(window.location);
+        this.buildSearch(page, pageSize, layout)
+        this.buildPaths(url, this.search)
+        window.history.pushState({path: this.browserPath}, "", this.browserPath);
         this.setState({
             layout: layout
         });
@@ -174,25 +186,25 @@ class Gallery extends React.Component {
 
                         { flickr.collection.map((image, i) => {
 
-                                return (
-                                    <div
-                                        style = {{
-                                            backgroundImage: `url(${image.src})`
-                                        }}
-                                        className = { `card b-0 p-0 ${image.orientation}` }
-                                        key={i} >
+                            return (
+                        <div
+                            style = {{
+                                backgroundImage: `url(${image.src})`
+                            }}
+                            className = { `card b-0 p-0 ${image.orientation}` }
+                            key={i} >
 
-                                        <Placeholder
-                                            className = "card-img-top img-fluid b-0 m-0 p-0"
-                                            layout={layout}
-                                            image={image} />
+                            <Placeholder
+                                className = "card-img-top img-fluid b-0 m-0 p-0"
+                                layout={layout}
+                                image={image} />
 
-                                        <ImageInfo
-                                            className="photoInfo"
-                                            image={image}
-                                            handleModalOpen={this.handleModalOpen} />
-                                    </div>
-                                );
+                            <ImageInfo
+                                className="photoInfo"
+                                image={image}
+                                handleModalOpen={this.handleModalOpen} />
+                        </div>
+                            );
 
                             }) }
 

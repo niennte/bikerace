@@ -10,6 +10,7 @@ class PhotosController < ApplicationController
   # GET /photos
   # GET /photos.json
   def gallery
+    @layout = params[:layout] && params[:layout].to_s || 'masonry'
     page = params[:page] && params[:page].to_i || 20
     page_size = params[:page_size] && params[:page_size].to_i || 12
     @flickr = FlickrClient.new.fetch(page: page, page_size: page_size)
