@@ -33,7 +33,7 @@ class Pagination extends React.Component {
         this.setState({
             loading: e.currentTarget.dataset.loaderId
         });
-        this.props.getPage(e.currentTarget.href);
+        this.props.getPage(e.currentTarget.dataset.page);
     }
 
     render () {
@@ -54,6 +54,7 @@ class Pagination extends React.Component {
                                 <a
                                     className={ `page-link ${helpers.cssLoading(loading === "loader-previous")}` }
                                     data-loader-id="loader-previous"
+                                    data-page={collection.page - 1}
                                     href={ `?page=${collection.page - 1}&page_size=${collection.page_size}` }
                                     aria-label="Previous"
                                     onClick = {this.handleLink}
@@ -73,6 +74,7 @@ class Pagination extends React.Component {
                                         href={ `?page=${page}&page_size=${collection.page_size}` }
                                         className={ `page-link ${helpers.cssLoading(loading === "loader-page-" + page)}` }
                                         data-loader-id={`loader-page-${page}`}
+                                        data-page={page}
                                         onClick = {this.handleLink}
                                     >{page}
                                         <span className="loader">
@@ -87,6 +89,7 @@ class Pagination extends React.Component {
                                 <a
                                     className={ `page-link ${helpers.cssLoading(loading === "loader-next")}` }
                                     data-loader-id="loader-next"
+                                    data-page={collection.page + 1}
                                     href={`?page=${collection.page + 1}&page_size=${collection.page_size}`} aria-label="Next"
                                     onClick = {this.handleLink}
                                 >

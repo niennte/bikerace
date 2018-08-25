@@ -1,5 +1,5 @@
 import React from "react"
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Modal, ModalBody } from "reactstrap";
 import helpers from "./helpers";
 import styled from "styled-components";
 
@@ -30,10 +30,12 @@ class Lightbox extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({
-            loading: nextProps.pageLoaded,
-            modal: nextProps.modal,
-            currentImage: nextProps.currentImage
+        this.setState((prevState) => {
+            return {
+                loading: nextProps.pageLoaded ? false : prevState.loading,
+                modal: nextProps.modal,
+                currentImage: nextProps.currentImage
+            }
         });
     }
 
