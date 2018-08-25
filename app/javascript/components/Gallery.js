@@ -30,6 +30,7 @@ class Gallery extends React.Component {
         this.toggleModal = this.toggleModal.bind(this);
         this.loadNextImage = this.loadNextImage.bind(this);
         this.loadPreviousImage = this.loadPreviousImage.bind(this);
+        this.changeLayout = this.changeLayout.bind(this);
     }
 
     indexImages(flickr) {
@@ -143,6 +144,12 @@ class Gallery extends React.Component {
         });
     }
 
+    changeLayout(layout) {
+        this.setState({
+            layout: layout
+        });
+    }
+
     render() {
 
         const {flickr, modal, currentImage, AJAXCallInProgress, layout} = this.state;
@@ -155,7 +162,10 @@ class Gallery extends React.Component {
                     <Pagination
                         getPage={this.getPage}
                         AJAXCallInProgress={AJAXCallInProgress}
-                        collection={flickr}/>
+                        collection={flickr}
+                        layout={layout}
+                        handleLayoutChange={this.changeLayout}
+                    />
                 </div>
 
                 <div className="container p-0 photos">

@@ -96,6 +96,22 @@ $wall-spacing: 1.3rem;
     opacity:1;
   }
 
+  .square {
+    .card.landscape {
+      background-size: 155%;
+    }
+
+    .card.landscape:hover {
+      background-size: 158%;
+    }
+  }
+
+  .boxed {
+    .card.portrait {
+      background-position: center 32%;
+    }
+  }
+
 
   .card {
     border: 0;
