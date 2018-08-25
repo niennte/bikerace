@@ -21,7 +21,7 @@ class Lightbox extends React.Component {
         this.state = {
             modal: false,
             currentImage: props.currentImage,
-            loading: props.pageLoaded
+            loaderId: null
         };
         this.handleModalOpen = this.handleModalOpen.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
@@ -32,7 +32,7 @@ class Lightbox extends React.Component {
     componentWillReceiveProps(nextProps) {
         this.setState((prevState) => {
             return {
-                loading: nextProps.pageLoaded ? false : prevState.loading,
+                loaderId: nextProps.AJAXCallInProgress ? prevState.loaderId : null,
                 modal: nextProps.modal,
                 currentImage: nextProps.currentImage
             }
@@ -42,7 +42,7 @@ class Lightbox extends React.Component {
     loadNextImage(e) {
         e.preventDefault();
         this.setState({
-            loading: e.currentTarget.dataset.loaderId
+            loaderId: e.currentTarget.dataset.loaderId
         });
         this.props.loadNextImage(e)
     }
@@ -50,7 +50,7 @@ class Lightbox extends React.Component {
     loadPreviousImage(e) {
         e.preventDefault();
         this.setState({
-            loading: e.currentTarget.dataset.loaderId
+            loaderId: e.currentTarget.dataset.loaderId
         });
         this.props.loadPreviousImage(e)
     }
@@ -70,7 +70,7 @@ class Lightbox extends React.Component {
 
     render () {
 
-        const { modal, currentImage, pageLoaded, loading } = this.state
+        const { modal, currentImage, loaderId } = this.state
 
         return (
             <React.Fragment>
@@ -86,7 +86,7 @@ class Lightbox extends React.Component {
                     <a href="#"
                        data-id={currentImage.id}
                        data-loader-id="next"
-                       className = { `next fa fa-chevron-right ${helpers.cssLoading(loading === "next")}` }
+                       className = { `next fa fa-chevron-right ${helpers.cssShowLoader(loaderId === "next")}` }
                        style={{
                            position: "absolute",
                            right: "7px"
@@ -103,7 +103,7 @@ class Lightbox extends React.Component {
                     <a href="#"
                        data-id={currentImage.id}
                        data-loader-id="previous"
-                       className = { `next fa fa-chevron-left ${helpers.cssLoading(loading === "previous")}` }
+                       className = { `next fa fa-chevron-left ${helpers.cssShowLoader(loaderId === "previous")}` }
                        style={{
                            position: "absolute",
                            left: "13px"

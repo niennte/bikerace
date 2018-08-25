@@ -5,7 +5,7 @@ const helpers = {
     cssDisabled: function (applies) {
         return applies ? "disabled" : "";
     },
-    cssLoading: function (applies) {
+    cssShowLoader: function (applies) {
         return applies ? "show-loader" : "";
     }
 };

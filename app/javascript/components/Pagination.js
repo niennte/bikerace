@@ -17,21 +17,23 @@ class Pagination extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            loading: props.pageLoaded
+            loaderId: null
         }
         this.handleLink = this.handleLink.bind(this)
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({
-            loading: nextProps.pageLoaded
+        this.setState((prevState) => {
+            return {
+                loaderId: nextProps.AJAXCallInProgress ? prevState.loaderId : null
+            }
         });
     }
 
     handleLink(e) {
         e.preventDefault();
         this.setState({
-            loading: e.currentTarget.dataset.loaderId
+            loaderId: e.currentTarget.dataset.loaderId
         });
         this.props.getPage(e.currentTarget.dataset.page);
     }
@@ -39,7 +41,7 @@ class Pagination extends React.Component {
     render () {
 
         const { collection } = this.props;
-        const { loading } = this.state;
+        const { loaderId } = this.state;
 
         return (
             <React.Fragment>
@@ -52,7 +54,7 @@ class Pagination extends React.Component {
 
                             <li className={ `page-item ${helpers.cssDisabled(!collection.has_previous_page)}` }>
                                 <a
-                                    className={ `page-link ${helpers.cssLoading(loading === "loader-previous")}` }
+                                    className={ `page-link ${helpers.cssShowLoader(loaderId === "loader-previous")}` }
                                     data-loader-id="loader-previous"
                                     data-page={collection.page - 1}
                                     href={ `?page=${collection.page - 1}&page_size=${collection.page_size}` }
@@ -72,7 +74,7 @@ class Pagination extends React.Component {
                                 <li key={page} className={ `page-item ${helpers.cssActive(page === collection.page)}` }>
                                     <a
                                         href={ `?page=${page}&page_size=${collection.page_size}` }
-                                        className={ `page-link ${helpers.cssLoading(loading === "loader-page-" + page)}` }
+                                        className={ `page-link ${helpers.cssShowLoader(loaderId === "loader-page-" + page)}` }
                                         data-loader-id={`loader-page-${page}`}
                                         data-page={page}
                                         onClick = {this.handleLink}
@@ -87,7 +89,7 @@ class Pagination extends React.Component {
 
                             <li className={ `page-item ${helpers.cssDisabled(!collection.has_next_page)}` }>
                                 <a
-                                    className={ `page-link ${helpers.cssLoading(loading === "loader-next")}` }
+                                    className={ `page-link ${helpers.cssShowLoader(loaderId === "loader-next")}` }
                                     data-loader-id="loader-next"
                                     data-page={collection.page + 1}
                                     href={`?page=${collection.page + 1}&page_size=${collection.page_size}`} aria-label="Next"

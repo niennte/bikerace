@@ -1,17 +1,10 @@
 import React from "react"
-import PropTypes from "prop-types"
+import axios from "axios"
+
 import Pagination from "./Pagination"
 import Lightbox from "./Lightbox"
 import ImageInfo from "./ImageInfo"
 import Placeholder from "./Placeholder"
-import axios from "axios"
-import {Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
-
-// @TODO:
-// - refactor into a components image placeholder and image info
-// - enable dynamic layout change
-// - simplify getPage
-// - simplify loadImage
 
 
 class Gallery extends React.Component {
@@ -22,12 +15,14 @@ class Gallery extends React.Component {
         this.SERVICE_PATH = props.service;
 
         this.direction = "next";
+        this.servicePath = "";
+        this.browserPath = "";
 
         this.state = {
             flickr: this.indexImages(props.flickr),
             modal: false,
             currentImage: {},
-            pageLoaded: false,
+            AJAXCallInProgress: false,
             layout: "masonry"
         };
         this.getPage = this.getPage.bind(this);
@@ -63,46 +58,56 @@ class Gallery extends React.Component {
         return page;
     }
 
+    buildPaths(url, search) {
+        this.servicePath = url.protocol + "//" + url.host + url.pathname + ".json" + search;
+        this.browserPath = url.protocol + "//" + url.host + url.pathname + search;
+    }
+
     getPage(page, pageSize) {
         // make module portable
         const url = new URL(window.location);
         page = page || this.state.flickr.page;
         pageSize = pageSize || this.state.flickr.page_size;
         const search = "?" + "page=" + page + "&page_size=" + pageSize;
-        // service path
-        const service = url.protocol + "//" + url.host + url.pathname + ".json" + search;
-        // browser path
-        const path = url.protocol + "//" + url.host + url.pathname + search;
-        axios.get(service)
-            .then(res => {
-                const flickr = this.indexImages(res.data);
+        this.buildPaths(url, search);
+
+        axios.get(this.servicePath)
+            .then(response => {
+                const flickr = this.indexImages(response.data);
                 this.setState({flickr});
-                // update browser path
-                window.history.pushState({path: path}, "", path);
-                // reload lightbox image
-                let imageId = 0;
-                if (this.direction === "previous") {
-                    // start from the last
-                    imageId = this.state.flickr.collection.length - 1
-                }
-                const currentImage = this.state.flickr.collection[imageId];
-                this.setState({
-                    currentImage: currentImage,
-                    pageLoaded: true
-                });
+                window.history.pushState({path: this.browserPath}, "", this.browserPath);
+                this.handleLighboxOnPageLoaded()
             });
     }
 
+    handleLighboxOnPageLoaded() {
+        // if going forward start from the beginning of the next page
+        let imageId = 0;
+        if (this.direction === "previous") {
+            // if going backward start from the end of the previous page
+            imageId = this.state.flickr.collection.length - 1
+        }
+        const currentImage = this.state.flickr.collection[imageId];
+        // update lightbox image and let module know load is complete
+        this.setState({
+            currentImage: currentImage,
+            AJAXCallInProgress: false
+        });
+    }
+
     loadImage(imageID) {
+        // try to get the image from current page
         let currentImage = this.state.flickr.collection[imageID];
+        // if none to be found
+        // let modules know and reach for another page
         if (!currentImage) {
             this.setState({
-                pageLoaded: false
+                AJAXCallInProgress: true
             });
             this.getPage(this.pageToLoad());
         } else {
             this.setState({
-                pageLoaded: true,
+                AJAXCallInProgress: false,
                 currentImage: currentImage
             });
         }
@@ -140,7 +145,7 @@ class Gallery extends React.Component {
 
     render() {
 
-        const {flickr, modal, currentImage, pageLoaded, loading, layout} = this.state;
+        const {flickr, modal, currentImage, AJAXCallInProgress, layout} = this.state;
 
         return (
             <React.Fragment>
@@ -149,7 +154,7 @@ class Gallery extends React.Component {
 
                     <Pagination
                         getPage={this.getPage}
-                        pageLoaded={pageLoaded}
+                        AJAXCallInProgress={AJAXCallInProgress}
                         collection={flickr}/>
                 </div>
 
@@ -175,7 +180,6 @@ class Gallery extends React.Component {
                                         <ImageInfo
                                             className="photoInfo"
                                             image={image}
-                                            pageLoaded={pageLoaded}
                                             handleModalOpen={this.handleModalOpen} />
                                     </div>
                                 );
@@ -189,7 +193,7 @@ class Gallery extends React.Component {
                 <Lightbox
                     modal={modal}
                     currentImage={currentImage}
-                    pageLoaded={pageLoaded}
+                    AJAXCallInProgress={AJAXCallInProgress}
                     handleModalOpen={this.handleModalOpen}
                     toggleModal={this.toggleModal}
                     loadNextImage={this.loadNextImage}
