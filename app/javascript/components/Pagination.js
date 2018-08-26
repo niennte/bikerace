@@ -57,10 +57,25 @@ class Pagination extends React.Component {
         return (
             <React.Fragment>
                 <div className="row py-3">
-                    <h4 className="display-4 text-center athletic-red col-md-6 justify-content-center h-100 align-items-center">
+                    <div className="col-md-6">
+                    <h4 className="display-4 text-center athletic-red justify-content-center align-items-center">
                         <span className="">Flickr gallery</span>
                     </h4>
-                    <div className="col-md-6">
+                        <p class="text-muted">Searching terms:
+                        {
+                            collection.terms.map( (term, i) => {
+                                return(
+                                    <span
+                                        key={i}
+                                        className="badge badge-light mx-2">
+                                        {term}
+                                    </span>
+                                );
+                            })
+                        }
+                        </p>
+                </div>
+                <div className="col-md-6">
 
                         <div className="row mb-2">
                         <nav className="col-6 m-0 p-0" aria-label="Page size controls" >

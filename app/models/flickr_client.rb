@@ -88,7 +88,8 @@ class FlickrClient
       :pages => @pages,
       :has_next_page => has_next_page,
       :has_previous_page => has_previous_page,
-      :paginator => paginator
+      :paginator => paginator,
+      :terms => @params[:text].split(" ")
   )
   end
 
