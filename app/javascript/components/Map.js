@@ -14,16 +14,16 @@ const styles = {
 };
 
 const layerLayoutOptions = {
-    "icon-image": "bicycle-rider",
+    "icon-image": "bike-racer",
     "icon-allow-overlap": true,
-    "text-field": "#{riderId}",
-    "text-size": 9,
-    "text-offset": [-0.8, -0.8],
+    "text-field": "{riderId}",
+    "text-size": 10,
+    "text-offset": [0, 0.6],
     "text-allow-overlap": true
 };
 
 const layerPaintOptions = {
-    "text-color": "#000000"
+    "text-color": "#ff601f"
 };
 
 const StyledPopup = styled.div`
