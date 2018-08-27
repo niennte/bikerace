@@ -252,14 +252,15 @@ $wall-spacing: 1.3rem;
     text-align: center;
   }
 
-
   .page-item .page-link.icon-link {
     line-height: 0;
+    padding-top: 7px;
+    padding-bottom: 6px;
   }
 
   .page-item .page-link.icon-link svg {
-    width: 32px;
-    height: 32px;
+    width: 20px;
+    height: 20px;
   }
 
   .page-item .page-link .icon {
