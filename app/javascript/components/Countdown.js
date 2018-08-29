@@ -19,7 +19,7 @@ class Countdown extends Component {
         this.now = new Date();
         this.state = {
             // call setInterval as soon as the window object becomes available
-            // and save reference to state so as to cause re rendering
+            // and save reference to state so as to trigger re-rendering
             tick: typeof window !== "undefined" && setInterval(this.updateContdown.bind(this), 1000),
             // initial rendering
             secondsLeft: Math.floor((this.date - this.now) / 1000),
@@ -33,8 +33,11 @@ class Countdown extends Component {
             }
         };
         // initial rendering
-        this.updateContdown();
+        this.addPartialDays();
+        this.buildCalendar();
+        this.buildClock();
 
+        // binding
         this.buildCalendar = this.buildCalendar.bind(this);
         this.addPartialDays = this.addPartialDays.bind(this);
         this.buildClock = this.buildClock.bind(this)
@@ -95,54 +98,50 @@ class Countdown extends Component {
 
         return (
         <React.Fragment>
-            <div className="d-flex justify-content-center">
-                <div className="">
-            <h1 className="text-center">
-                Coming up {this.date.toDateString()}
-            </h1>
+            <div className="container-fluid p-0 m-0 d-flex justify-content-center">
+                <div className="row">
+                    <ul className="mx-auto countdown calendar nav justify-content-center">
+                        <li className="nav-item mx-1">
+                            <span className="nav-link">
+                                <span className="value">{ countdown.years }</span>
+                                <span className="description"> Year{ handlePlural(countdown.years) }</span>
+                            </span>
+                        </li>
+                        <li className="nav-item mx-1">
+                            <span className="nav-link">
+                                <span className="value">{ countdown.months }</span>
+                                <span className="description"> Month{ handlePlural(countdown.months) }</span>
+                            </span>
+                        </li>
+                        <li className="nav-item mx-1">
+                            <span className="nav-link">
+                                <span className="value">{ countdown.days }</span>
+                                <span className="description"> Day{ handlePlural(countdown.days) }</span>
+                            </span>
+                        </li>
+                    </ul>
 
-            <ul className="countdown calendar nav justify-content-center">
-                <li className="nav-item mx-1">
-                    <span className="nav-link">
-                        <span className="value">{ countdown.years }</span>
-                        <span className="description"> Year{ handlePlural(countdown.years) }</span>
-                    </span>
-                </li>
-                <li className="nav-item mx-1">
-                    <span className="nav-link">
-                        <span className="value">{ countdown.months }</span>
-                        <span className="description"> Month{ handlePlural(countdown.months) }</span>
-                    </span>
-                </li>
-                <li className="nav-item mx-1">
-                    <span className="nav-link">
-                        <span className="value">{ countdown.days }</span>
-                        <span className="description"> Day{ handlePlural(countdown.days) }</span>
-                    </span>
-                </li>
-            </ul>
-
-            <ul className="countdown clock nav justify-content-center mt-2">
-                <li className="nav-item mx-1">
-                    <span className="nav-link">
-                        <span className="value">{ countdown.hours }</span>
-                        <span className="description"> Hour{ handlePlural(countdown.hours) }</span>
-                    </span>
-                </li>
-                <li className="nav-item mx-1">
-                    <span className="nav-link">
-                        <span className="value">{ countdown.minutes }</span>
-                        <span className="description"> Minute{ handlePlural(countdown.minutes) }</span>
-                    </span>
-                </li>
-                <li className="nav-item mx-1">
-                    <span className="nav-link">
-                        <span className="value">{ countdown.seconds }</span>
-                        <span className="description"> Second{ handlePlural(countdown.seconds) }</span>
-                    </span>
-                </li>
-            </ul>
-            </div>
+                    <ul className="mx-auto countdown clock nav justify-content-center mt-2 mt-sm-0">
+                        <li className="nav-item mx-1">
+                            <span className="nav-link">
+                                <span className="value">{ countdown.hours }</span>
+                                <span className="description"> Hour{ handlePlural(countdown.hours) }</span>
+                            </span>
+                        </li>
+                        <li className="nav-item mx-1">
+                            <span className="nav-link">
+                                <span className="value">{ countdown.minutes }</span>
+                                <span className="description"> Minute{ handlePlural(countdown.minutes) }</span>
+                            </span>
+                        </li>
+                        <li className="nav-item mx-1">
+                            <span className="nav-link">
+                                <span className="value">{ countdown.seconds }</span>
+                                <span className="description"> Second{ handlePlural(countdown.seconds) }</span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
 

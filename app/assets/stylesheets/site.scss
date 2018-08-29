@@ -1,14 +1,59 @@
 
-.site.index {
+// video header
 
+.videoHeader {
 
-  // the Countdown
-  .countdown .nav-item {
-    width: 20vmin;
-    height: 20vmin;
+  height: 88vh !important;
+  overflow: hidden;
+
+  #videoBg {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    min-height: 600px;
+    width: auto;
+  }
+
+  .content {
+    position: absolute;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: #f1f1f1;
+    width: 100%;
+    padding: 20px;
+  }
+  #myBtn {
+    width: 200px;
+    font-size: 18px;
+    padding: 10px;
+    border: none;
+    background: #000;
+    color: #fff;
+    cursor: pointer;
+  }
+  #myBtn:hover {
+    background: #ddd;
+    color: black;
+  }
+}
+
+@media(min-width:950px) {
+  .videoHeader #videoBg {
+    width: 100%;
+    height: auto;
+  }
+}
+
+// the Countdown
+.countdown {
+
+  .nav-item {
+    width: 18vmin;
+    height: 18vmin;
     min-width: 30px;
     min-height: 30px;
-    border: 1px solid gray;
+    border: 1px solid $neon-white;
     border-radius: 50%;
 
     display: flex;
@@ -16,16 +61,20 @@
     align-items: center;
   }
 
-  .countdown .nav-link span {
+  .nav-link span {
     display: block;
     width: 100%;
     text-align: center;
   }
 
-  .countdown .nav-link span.description {
+  .nav-link span.description {
     font-size: 60%;
   }
 
+}
+
+
+.site.index {
 
   height: 100%;
 

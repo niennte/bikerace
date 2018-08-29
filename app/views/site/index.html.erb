@@ -1,10 +1,33 @@
 
 <section class="container-fluid m-0 p-0">
 
-  <div class="jumbotron backdrop min-100 m-0">
 
-    <%= react_component("Countdown", { date: 'April 1, 2020'.to_date }, {prerender: true}) %>
+<div class="jumbotron bg-dark mb-0 d-flex align-items-center flex-column justify-content-center position-relative videoHeader" id="header" style="
+;
+">
+
+  <video autoplay muted loop id="videoBg">
+    <source src="<%= image_path('D956_142_162_comp.mp4') %>" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+
+  <div class="content">
+    <div class=" ">
+
+      <h1 class="slender-heading neon-white text-center">
+        The Boulder Bike Tour
+      </h1>
+
+      <h4 class="athletic-orange slender-heading callout ml-2 text-center">
+        Coming up April 1, 2020
+      </h4>
+
+      <%= react_component("Countdown", { date: 'April 1, 2020'.to_date }, {prerender: true}) %>
+
+    </div>
 
   </div>
+
+</div>
 
 </section>
