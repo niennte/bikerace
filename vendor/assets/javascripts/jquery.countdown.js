@@ -21,7 +21,7 @@
             timestamp	: 0
         },prop);
 
-        let left, mth, d, h, m, s, positions;
+        let left, yrs, mth, d, h, m, s, positions;
 
         // Initialize the plugin
         init(this, options);
@@ -54,27 +54,29 @@
 
             // Number of months left
             mth = getMonthsUntil(options.timestamp) < 0 ? 0 : getMonthsUntil(options.timestamp);
-            //console.log(mth)
-            updateDuo(0, 1, mth);
+            yrs = mth / 12 > 1 ? Math.floor(mth / 12) : 0
+            mth = mth - yrs * 12
+            updateDuo(0, 1, yrs);
+            updateDuo(2, 3, mth);
 
             // Number of days left
-            updateDuo(2, 3, getDaysLeft());
+            updateDuo(4, 5, getDaysLeft());
             d = Math.floor(left / days);
             left -= d*days;
 
             // Number of hours left
             h = Math.floor(left / hours);
-            updateDuo(4, 5, h);
+            updateDuo(6, 7, h);
             left -= h*hours;
 
             // Number of minutes left
             m = Math.floor(left / minutes);
-            updateDuo(6, 7, m);
+            updateDuo(8, 9, m);
             left -= m*minutes;
 
             // Number of seconds left
             s = left;
-            updateDuo(8, 9, s);
+            updateDuo(10, 11, s);
 
             // Calling an optional user supplied callback
             options.callback(d, h, m, s);
@@ -97,7 +99,7 @@
         elem.addClass('countdownHolder');
 
         // Creating the markup inside the container
-        $.each(['Months', 'Days','Hours','Minutes','Seconds'],function(i){
+        $.each(['Years', 'Months', 'Days','Hours','Minutes','Seconds'],function(i){
             $('<span class="count'+this+'">').html(
                 '<span class="position">\
                   <span class="digit static">0</span>\

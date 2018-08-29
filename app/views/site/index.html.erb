@@ -1,18 +1,9 @@
 
 <section class="container-fluid m-0 p-0">
 
-  <div class="jumbotron backdrop min-100 m-0 d-flex justify-content-center align-items-center">
+  <div class="jumbotron backdrop min-100 m-0">
 
-    <div class="countDownWrap">
-
-      <h2 class="text-center">Time to <span id="targetDate">April 1, 2020</span>:</h2>
-
-      <div id="countdown" class="countdownHolder">
-      </div>
-      <div id="note">
-      </div>
-
-    </div>
+    <%= react_component("Countdown", { date: 'April 1, 2020'.to_date }, {prerender: true}) %>
 
   </div>
 

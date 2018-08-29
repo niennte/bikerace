@@ -1,4 +1,31 @@
+
 .site.index {
+
+
+  // the Countdown
+  .countdown .nav-item {
+    width: 20vmin;
+    height: 20vmin;
+    min-width: 30px;
+    min-height: 30px;
+    border: 1px solid gray;
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .countdown .nav-link span {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  .countdown .nav-link span.description {
+    font-size: 60%;
+  }
+
 
   height: 100%;
 

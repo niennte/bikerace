@@ -7,6 +7,9 @@ const helpers = {
     },
     cssShowLoader: function (applies) {
         return applies ? "show-loader" : "";
+    },
+    handlePlural(value) {
+        return value === 1 ? "" : "s";
     }
 };
 
