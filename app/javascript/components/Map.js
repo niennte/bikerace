@@ -58,6 +58,7 @@ class Map extends React.Component {
         let coordinates = this.constructor.extractCoordinates(riders);
 
         this.state = {
+            highlight: props.highlight,
             rider: null,
             riders: riders,
             coordinates: coordinates,
@@ -132,6 +133,12 @@ class Map extends React.Component {
 
         const { riders, mapBounds, rider  } = this.state;
 
+        const highlightItem = riders[8]
+        const highlight = {
+            id: highlightItem.riderId,
+            position: highlightItem.coordinates
+        };
+
         return (
             <React.Fragment>
                 <div className="container-fluid m-0 p-0">
@@ -187,6 +194,23 @@ class Map extends React.Component {
                                     </p>
 
                                 </StyledPopup>
+                            </Popup>
+                        )}
+                        {highlight && (
+                            <Popup
+                                anchor="top"
+                                className="mapboxHighlight"
+                                style={{
+                                    "background": "transparent",
+                                    "zIndex": "2",
+                                    "width": "32px",
+                                    "height": "32px",
+                                    "top": "-16px",
+                                    "borderRadius": "50%",
+                                    "boxShadow": "0px 0px 0px 10px orange"
+                                }}
+                                key={highlight.id}
+                                coordinates={highlight.position}>
                             </Popup>
                         )}
 

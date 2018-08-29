@@ -1,0 +1,20 @@
+<div class="card-columns">
+
+  <% model.each do |item| %>
+      <% item.extend(RiderView) %>
+      <div class="card">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <%= item.id %>
+          </li>
+          <li class="list-group-item">
+            <%= item.full_name %>
+          </li>
+          <li class="list-group-item">
+            <%= item.city_of_origin %>
+          </li>
+        </ul>
+      </div>
+  <% end %>
+
+</div>

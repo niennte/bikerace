@@ -1,3 +1,31 @@
+
+// columns
+.riders .row table {
+
+  font-size: 85%;
+
+  thead {
+    display: none;
+  }
+
+  // make sure table columns are aligned when stacked
+  td:first-child {
+    max-width: 30px;
+  }
+  td:first-child+td {
+    width: 45%;
+  }
+
+}
+
+
+.riders .mapboxHighlight {
+  .mapboxgl-popup-content,
+  .mapboxgl-popup-tip {
+    display: none;
+  }
+}
+
 .riders.location {
   #map {
     width: 100%;

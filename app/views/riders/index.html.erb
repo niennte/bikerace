@@ -1,27 +1,16 @@
 <p id="notice"><%= notice %></p>
 <section class="py-5 container">
 
-<h1>Riders</h1>
+<h1 class="text-center">Riders</h1>
 
-  <table class="table table-bordered table-striped">
-    <thead class="thead-light">
-      <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>City of Origin</th>
-      </tr>
-    </thead>
+  <div class="row">
+    <div class="col-12 col-md-5 ml-auto">
+<%= render 'list', { model: two_column_set(@riders, 1) } %>
+    </div>
 
-    <tbody>
-      <% @riders.each do |rider| %>
-      <% rider.extend(RiderView) %>
-        <tr>
-          <td><%= rider.id %></td>
-          <td><%= rider.full_name %></td>
-          <td><%= rider.city_of_origin %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+    <div class="col-12 col-md-5 mr-auto">
+<%= render 'list', { model: two_column_set(@riders, 2) } %>
+    </div>
 
+  </div>
 </section>

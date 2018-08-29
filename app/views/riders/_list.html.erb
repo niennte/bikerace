@@ -1,0 +1,20 @@
+<table class="table table-striped mb-0 pb-0 table-hover">
+  <thead class="thead-light">
+  <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>City of Origin</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% model.each do |item| %>
+      <% item.extend(RiderView) %>
+      <tr>
+        <td><%= item.id %></td>
+        <td><%= item.full_name %></td>
+        <td><%= item.city_of_origin %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
