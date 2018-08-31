@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :slogan_ideas
+  get '/contest-static/', to: 'slogan_ideas#contest_static'
   get '/contest/', to: 'slogan_ideas#contest'
+  get '/validate/', to: 'slogan_ideas#validate'
   resources :riders
   get '/list/', to: 'riders#list'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

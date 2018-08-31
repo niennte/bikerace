@@ -7,6 +7,26 @@ class SloganIdeasController < ApplicationController
     @slogan_idea = SloganIdea.new
   end
 
+  # POST validate.json
+  def validate
+    respond_to do |format|
+      # causes controller to return 304 not-modified if no valid params found
+      fields = params.permit(:first_name, :last_name, :email, :idea)
+      errors = ModelFieldValidator.validate('SloganIdea', fields)
+      if errors
+        format.json { render json: errors, status: :ok }
+      else
+        format.json { render json: nil, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # GET /contest-static
+  # GET /contest-static.json
+  def contest_static
+    @slogan_idea = SloganIdea.new
+  end
+
   # GET /slogan_ideas
   # GET /slogan_ideas.json
   def index

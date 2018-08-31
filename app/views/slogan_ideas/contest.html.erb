@@ -1,16 +1,12 @@
-<% @slogan_idea.extend(SloganIdeaView) %>
-<%= render 'notifications', model: @slogan_idea  %>
-
-<section class="py-5 container <%= css_crud %>">
-  <div class="card crud" style="width: 25rem;">
-
-    <div class="card-body">
-
-      <h3 class="card-title text-center pb-2">New <%= @slogan_idea.label %></h3>
-
-      <%= render 'form', slogan_idea: @slogan_idea %>
-
-    </div>
-
-  </div>
-</section>
+<%=
+  react_component(
+    'Contest',
+    {
+      contest: @slogan_idea,
+      service: request.base_url + slogan_ideas_path,
+      validation:request.base_url + validate_path,
+      authenticity_token: form_authenticity_token
+    },
+    {prerender: false}
+  )
+%>
