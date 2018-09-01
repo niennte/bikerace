@@ -4,7 +4,7 @@ class SloganIdeasController < ApplicationController
   # GET /contest
   # GET /contest.json
   def contest
-    @slogan_idea = SloganIdea.new
+    @slogan_idea = SloganIdea.new.extend(SloganIdeaForm).result
   end
 
   # POST validate.json
@@ -14,7 +14,7 @@ class SloganIdeasController < ApplicationController
       fields = params.permit(:first_name, :last_name, :email, :idea)
       errors = ModelFieldValidator.validate('SloganIdea', fields)
       if errors
-        format.json { render json: errors, status: :ok }
+        format.json { render json: errors, status: :partial_content }
       else
         format.json { render json: nil, status: :unprocessable_entity }
       end
@@ -36,6 +36,10 @@ class SloganIdeasController < ApplicationController
   # GET /slogan_ideas/1
   # GET /slogan_ideas/1.json
   def show
+    respond_to do |format|
+      format.html
+      format.json { render json: @slogan_idea.extend(SloganIdeaView).result , status: :ok }
+    end
   end
 
   # GET /slogan_ideas/new
@@ -55,7 +59,7 @@ class SloganIdeasController < ApplicationController
     respond_to do |format|
       if @slogan_idea.save
         format.html { redirect_to @slogan_idea, notice: 'Slogan idea was successfully created.' }
-        format.json { render :show, status: :created, location: @slogan_idea }
+        format.json { render json: @slogan_idea.extend(SloganIdeaView).result , status: :created }
       else
         format.html { render :new }
         format.json { render json: @slogan_idea.errors, status: :unprocessable_entity }

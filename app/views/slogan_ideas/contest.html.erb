@@ -1,12 +1,24 @@
-<%=
-  react_component(
-    'Contest',
-    {
-      contest: @slogan_idea,
-      service: request.base_url + slogan_ideas_path,
-      validation:request.base_url + validate_path,
-      authenticity_token: form_authenticity_token
-    },
-    {prerender: false}
-  )
-%>
+<section class="py-5 container d-flex justify-content-center">
+  <div class="card crud" style="width: 25rem">
+
+    <div class="card-body">
+
+      <h3 class="card-title text-center pb-2">Event Slogan Contest:</h3>
+
+      <%=
+        react_component(
+          'Contest',
+          {
+            model: @slogan_idea,
+            service: request.base_url + slogan_ideas_path,
+            validation:request.base_url + validate_path,
+            authenticity_token: form_authenticity_token
+          },
+          {prerender: true}
+        )
+      %>
+
+    </div>
+
+  </div>
+</section>

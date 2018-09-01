@@ -10,6 +10,10 @@ module ValidateFields
   end
 end
 
+# attrs:
+# model_class string
+# model_fields hash
+# return:
 # empty error hash - all fields valid
 # error hash with errors - not surprisingly, validation errors
 # nil - model not valid or has no requested fields

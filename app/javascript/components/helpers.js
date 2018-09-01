@@ -5,6 +5,12 @@ const helpers = {
     cssDisabled: function (applies) {
         return applies ? "disabled" : "";
     },
+    cssInvalid: function (applies) {
+        return applies ? "alert alert-warning" : "";
+    },
+    cssValidation: function (applies) {
+        return applies ? "is-invalid" : "is-valid";
+    },
     cssShowLoader: function (applies) {
         return applies ? "show-loader" : "";
     },
