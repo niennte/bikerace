@@ -61,7 +61,8 @@ class Gallery extends React.Component {
     }
 
     buildPaths(url, search) {
-        this.servicePath = url.protocol + "//" + url.host + url.pathname + ".json" + this.search;
+        const service = new URL(this.SERVICE_PATH);
+        this.servicePath = service.protocol + "//" + service.host + service.pathname + ".json" + this.search;
         this.browserPath = url.protocol + "//" + url.host + url.pathname + this.search;
     }
 
@@ -191,7 +192,7 @@ class Gallery extends React.Component {
                             style = {{
                                 backgroundImage: `url(${image.src})`
                             }}
-                            className = { `card b-0 p-0 ${image.orientation}` }
+                            className = { `card photo b-0 p-0 ${image.orientation}` }
                             key={i} >
 
                             <Placeholder

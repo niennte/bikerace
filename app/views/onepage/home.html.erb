@@ -1,0 +1,184 @@
+
+<header class="container-fluid m-0 p-0">
+
+
+  <div class="jumbotron bg-dark mb-0 d-flex align-items-center flex-column justify-content-center position-relative videoHeader" id="header" style="
+  ;
+  ">
+
+    <video autoplay muted loop id="videoBg">
+      <source src="<%= image_path('D956_142_162_comp.mp4') %>" type="video/mp4">
+      Your browser does not support HTML5 video.
+    </video>
+
+    <div class="content">
+      <div class=" ">
+
+        <h1 class="slender-heading neon-white text-center">
+          The Boulder Bike Tour
+        </h1>
+
+        <h4 class="athletic-orange slender-heading callout ml-2 text-center">
+          Coming up April 1, 2020
+        </h4>
+
+        <%= react_component("Countdown", { date: 'April 1, 2020'.to_date }, {prerender: true}) %>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top p-3 stikies topMenu " id="topbar">
+  <div class="container my-0 py-0">
+    <a class="navbar-brand text-expanded font-weight-bold d-md-none" href="#">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav scrollNav">
+        <li class="nav-item pr-lg-5">
+          <a class="nav-link text-expanded" href="#header">Home
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item px-lg-5">
+          <a class="nav-link text-expanded" href="#about">About
+          </a>
+        </li>
+        <li class="nav-item px-lg-5">
+          <a class="nav-link text-expanded" href="#photos">Photos
+          </a>
+        </li>
+        <li class="nav-item px-lg-5">
+          <a class="nav-link text-expanded" href="#riders">Riders
+          </a>
+        </li>
+        <li class="nav-item px-lg-5">
+          <a class="nav-link text-expanded" href="#location">Map
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item pl-lg-5">
+          <!--
+          <a class="nav-link text-expanded preRegister" href="#pre-register" data-toggle="modal">Contest</a>
+          -->
+          <a class="nav-link text-expanded" href="#contest">Contest
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- About -->
+<section class="pt-4 pt-md-5 pb-4 mb-0 " id="about">
+  <div class="container my-5 text-md-center ">
+    <h4 class="display-4 text-center text-muted">
+      About
+    </h4>
+    <h5 class=" text-muted slender-heading textSizeMedium"><span class="text-secondary">The Boulder Bike Tour</span> is an awesome sed lectus vestibulum.
+    </h5>
+    <p class="lead">
+      Et tortor consequat id porta nibh venenatis. Iaculis eu non diam phasellus vestibulum lorem.
+    </p>
+    <p class="col-md-8 mx-md-auto text-left">
+      Vel eros donec ac odio tempor orci. Volutpat diam ut venenatis tellus in metus vulputate. Scelerisque viverra mauris in aliquam sem. Curabitur gravida arcu ac tortor dignissim. Dictum at tempor commodo ullamcorper a. Sed enim ut sem viverra aliquet. Enim blandit volutpat maecenas volutpat blandit. Hac habitasse platea dictumst quisque sagittis purus.
+    </p>
+
+  </div>
+</section>
+
+<!-- Flickr gallery -->
+<!-- Photos -->
+<section id="photos" class="py-5 gallery gallery-container">
+  <%= react_component("Gallery", { flickr: @flickr, service: request.base_url + '/' + photos_path, layout: @layout }, {prerender: true}) %>
+</section>
+
+<!-- The Riders List -->
+<section class="py-5 container" id="riders">
+
+  <h1>Riders</h1>
+
+  <table class="table table-bordered table-striped">
+    <thead class="thead-light">
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>City of Origin</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @riders.each do |rider| %>
+        <% rider.extend(RiderView) %>
+        <tr>
+          <td><%= rider.id %></td>
+          <td><%= rider.full_name %></td>
+          <td><%= rider.city_of_origin %></td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+
+</section>
+
+<!-- The Map -->
+<section class="p-0 m-0" id="location">
+  <%= react_component("Map", { riders: @rider_locations, service: request.base_url + riders_path }, {prerender: false}) %>
+</section>
+
+
+<!-- The slogan idea contest -->
+<section class="py-5 container d-flex justify-content-center" id="contest">
+  <div class="card crud" style="width: 25rem">
+
+    <div class="card-body">
+
+      <h3 class="card-title text-center pb-2">Event Slogan Contest:</h3>
+
+      <%=
+        react_component(
+            'Contest',
+            {
+                model: @slogan_idea,
+                service: request.base_url + slogan_ideas_path,
+                validation:request.base_url + validate_path,
+                authenticity_token: form_authenticity_token
+            },
+            {prerender: true}
+        )
+      %>
+
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+<script>
+    // Fluid Scrollspy
+    $(function () {
+        $('.scrollNav a').on('click', function (e) {
+            e.preventDefault();
+            $('html, body').animate({
+                scrollTop: $(this.hash).offset().top - 70
+            }, 1000);
+        });
+    });
+    // Offset value accounts for sticky top bar
+    $('body').scrollspy({offset: 110});
+</script>

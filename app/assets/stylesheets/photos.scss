@@ -47,6 +47,7 @@
 /* Masonry photo wall spacing */
 $wall-spacing: 1.3rem;
 
+.onepage,
 .gallery,
 .photos {
 
@@ -97,23 +98,23 @@ $wall-spacing: 1.3rem;
   }
 
   .square {
-    .card.landscape {
+    .card.photo.landscape {
       background-size: 155%;
     }
 
-    .card.landscape:hover {
+    .card.photo.landscape:hover {
       background-size: 158%;
     }
   }
 
   .boxed {
-    .card.portrait {
+    .card.photo.portrait {
       background-position: center 12%;
     }
   }
 
 
-  .card {
+  .card.photo {
     border: 0;
     background-color: #fff;
     background-size: 100%;
