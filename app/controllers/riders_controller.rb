@@ -25,6 +25,18 @@ class RidersController < ApplicationController
     end
   end
 
+  # GET /location-static
+  # GET /location-static.json
+  def location
+    @riders = Rider.all.order('id').map do |rider|
+      rider.extend(RiderView).for_react
+    end
+    respond_to do |format|
+      format.html
+      format.json { render json: @riders }
+    end
+  end
+
   # GET /riders/1
   # GET /riders/1.json
   def show
