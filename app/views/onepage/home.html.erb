@@ -1,38 +1,4 @@
 
-<header class="container-fluid m-0 p-0">
-
-
-  <div class="jumbotron bg-dark mb-0 d-flex align-items-center flex-column justify-content-center position-relative videoHeader" id="header" style="
-  ;
-  ">
-
-    <video autoplay muted loop id="videoBg">
-      <source src="<%= image_path('D956_142_162_comp.mp4') %>" type="video/mp4">
-      Your browser does not support HTML5 video.
-    </video>
-
-    <div class="content">
-      <div class=" ">
-
-        <h1 class="slender-heading neon-white text-center">
-          The Boulder Bike Tour
-        </h1>
-
-        <h4 class="athletic-orange slender-heading callout ml-2 text-center">
-          Coming up April 1, 2020
-        </h4>
-
-        <%= react_component("Countdown", { date: 'April 1, 2020'.to_date }, {prerender: true}) %>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</header>
-
-
 <!-- Navigation -->
 <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top p-3 stikies topMenu " id="topbar">
   <div class="container my-0 py-0">
@@ -66,19 +32,49 @@
       </ul>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item pl-lg-5">
-          <!--
-          <a class="nav-link text-expanded preRegister" href="#pre-register" data-toggle="modal">Contest</a>
-          -->
-          <a class="nav-link text-expanded" href="#contest">Contest
-          </a>
+          <a class="nav-link text-expanded preRegister" href="#slogan-idea-contest" data-toggle="modal">Contest</a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
 
+<!-- Header area -->
+<header class="container-fluid m-0 p-0">
+
+  <div class="jumbotron bg-dark mb-0 d-flex align-items-center flex-column justify-content-center position-relative videoHeader" id="header" style="
+  ;
+  ">
+
+    <video autoplay muted loop id="videoBg">
+      <source src="<%= image_path('D956_142_162_comp.mp4') %>" type="video/mp4">
+      Your browser does not support HTML5 video.
+    </video>
+
+    <div class="content">
+      <div class=" ">
+
+        <h1 class="slender-heading neon-white text-center">
+          The Boulder Bike Tour
+        </h1>
+
+        <h4 class="athletic-orange slender-heading callout ml-2 text-center">
+          Coming up April 1, 2020
+        </h4>
+
+        <%= react_component("Countdown", { date: 'April 1, 2020'.to_date }, {prerender: true}) %>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</header>
+
+
 <!-- About -->
-<section class="pt-4 pt-md-5 pb-4 mb-0 " id="about">
+<section class="pt-4 pt-md-5 pb-4 mb-0 min-100" id="about">
   <div class="container my-5 text-md-center ">
     <h4 class="display-4 text-center text-muted">
       About
@@ -136,30 +132,37 @@
 
 
 <!-- The slogan idea contest -->
-<section class="py-5 container d-flex justify-content-center" id="contest">
-  <div class="card crud" style="width: 25rem">
 
-    <div class="card-body">
+<!-- Slogan Idea Contest -->
+<div id="slogan-idea-contest" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="prModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="prModalLabel" class="text-primary">Slogan Idea Contest</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
 
-      <h3 class="card-title text-center pb-2">Event Slogan Contest:</h3>
+      <div class="modal-body">
+        <%=
+          react_component(
+              'Contest',
+              {
+                  model: @slogan_idea,
+                  service: request.base_url + slogan_ideas_path,
+                  validation:request.base_url + validate_path,
+                  authenticity_token: form_authenticity_token
+              },
+              {prerender: true}
+          )
+        %>
+      </div>
 
-      <%=
-        react_component(
-            'Contest',
-            {
-                model: @slogan_idea,
-                service: request.base_url + slogan_ideas_path,
-                validation:request.base_url + validate_path,
-                authenticity_token: form_authenticity_token
-            },
-            {prerender: true}
-        )
-      %>
-
+      <!--<div class="modal-footer text-center justify-content-center">-->
+        <!--<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>-->
+      <!--</div>-->
     </div>
-
   </div>
-</section>
+</div>
 
 
 
