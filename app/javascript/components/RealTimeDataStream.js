@@ -77,6 +77,7 @@ class RealTimeDataStream extends Component {
 
     simulator() {
         this.state.riders.forEach((rider) => {
+            // give all object a small nudge Southward
             const latitude = parseFloat(rider.coordinates[1]) - 0.0002;
             const longitudeShift =  Math.random()/1000 - Math.random()/1000;
             const longitude = rider.coordinates[0] + longitudeShift;
@@ -101,7 +102,7 @@ class RealTimeDataStream extends Component {
 
     startRealTime() {
         this.publish();
-        this.running = window.setInterval(this.simulator.bind(this), 500);
+        this.running = window.setInterval(this.simulator.bind(this), 1000);
     }
 
     stopRealTime() {

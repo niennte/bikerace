@@ -66,12 +66,27 @@ class Map extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+
+        // update object positions and rescale the map
         this.setState({
             riders: nextProps.riders,
             mapBounds: this.calculateMapBounds(nextProps.riders)
         });
         this.applyMapBounds();
+
+        // update Popup position if it's open
+        // to follow the object it belongs to
+        if (this.state.rider) {
+            this.setState((prevState) => {
+                let rider = prevState.rider;
+                rider.position = nextProps.riders[(rider.id - 1)].coordinates;
+                return {
+                    rider: rider
+                };
+            });
+        }
     }
+
 
     static extractCoordinates(riders) {
         return riders
@@ -83,10 +98,11 @@ class Map extends React.Component {
             });
     };
 
-    // margin optional param allows to leave space between objects and map edges
+    // * Make map rescale to contain all objects
+    // margin - optional param, allows to leave space between objects and map edges
     // using degrees and latitude and longitude as unit
     // while longitude degree may vary, horizontal margins should not be the issue
-    // unless the riders make it close to the Earth's the poles, or the equator :)
+    // as long as the riders keep away from the Earth's the poles, and the equator :)
     calculateMapBounds (riders, margin) {
         const coordinatePairs = this.constructor.extractCoordinates(riders);
         margin = margin || 0.01;
@@ -108,7 +124,7 @@ class Map extends React.Component {
     }
 
     applyMapBounds() {
-        // this.map points to the React wrapper
+        // NB: this.map points to the React wrapper
         // the actual map is stored as this.map.state.map
         this.map.state.map.fitBounds(this.state.mapBounds)
     }
