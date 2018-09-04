@@ -44,6 +44,23 @@ class RealTimeDataStream extends Component {
             this.publish();
         });
 
+        // a little fun, after all the serious business:
+        // add a rider staying put
+        let irin = {
+            coordinates: [-105.35, 40.05],
+            properties: {
+                riderId: 100,
+                full_name: "Irin P",
+                city_of_origin: "Toronto, ON"
+            }
+        };
+        this.setState((prevState) => {
+            let riders = prevState.riders;
+            riders.push(irin); // yikes! how rude
+            return riders;
+        });
+
+
     }
 
     updateMapProps(message) {
@@ -76,11 +93,23 @@ class RealTimeDataStream extends Component {
     }
 
     simulator() {
+        // For the demo purposes and to illustrate the behavior of the Map,
+        // give all objects a gentle nudge Southward
+        // with light sideways swings
+
         this.state.riders.forEach((rider) => {
-            // give all object a small nudge Southward
-            const latitude = parseFloat(rider.coordinates[1]) - 0.0002;
-            const longitudeShift =  Math.random()/1000 - Math.random()/1000;
-            const longitude = rider.coordinates[0] + longitudeShift;
+            let latitude;
+            // make one rider go North
+            if( rider.properties.riderId === 100 ) {
+                // small nudge Northward
+                latitude = parseFloat(rider.coordinates[1]) + 0.002;
+            } else {
+                // small nudge Southward
+                latitude = parseFloat(rider.coordinates[1]) - 0.0002;
+            }
+                // sideways swings
+                const longitudeShift = Math.random() / 1000 - Math.random() / 1000;
+                const longitude = rider.coordinates[0] + longitudeShift;
             rider.coordinates = [longitude, latitude];
             this.setState((prevState) => {
                 const riders = prevState.riders;
@@ -91,10 +120,11 @@ class RealTimeDataStream extends Component {
                     coordinates: rider.coordinates
                 };
                 console.log(updatedRider);
+                // publish the rider updates to the channel
                 this.pubnubListener.publish({ message: updatedRider, channel: "channel1" }, (response) => {
                     console.log(response);
                 });
-
+                // update the state
                 return riders;
             });
         });
@@ -102,7 +132,7 @@ class RealTimeDataStream extends Component {
 
     startRealTime() {
         this.publish();
-        this.running = window.setInterval(this.simulator.bind(this), 1000);
+        this.running = window.setInterval(this.simulator.bind(this), 500);
     }
 
     stopRealTime() {
