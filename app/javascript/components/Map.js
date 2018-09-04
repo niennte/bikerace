@@ -55,16 +55,22 @@ class Map extends React.Component {
         this.SERVICE_PATH = props.service;
 
         let riders = props.riders;
-        let coordinates = this.constructor.extractCoordinates(riders);
 
         this.state = {
-            rider: null,
+            rider: null, // the Popup
             riders: riders,
-            coordinates: coordinates,
-            mapBounds: this.calculateMapBounds(coordinates)
+            mapBounds: this.calculateMapBounds(riders)
         };
 
         this.applyMapBounds = this.applyMapBounds.bind(this)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            riders: nextProps.riders,
+            mapBounds: this.calculateMapBounds(nextProps.riders)
+        });
+        this.applyMapBounds();
     }
 
     static extractCoordinates(riders) {
@@ -81,8 +87,9 @@ class Map extends React.Component {
     // using degrees and latitude and longitude as unit
     // while longitude degree may vary, horizontal margins should not be the issue
     // unless the riders make it close to the Earth's the poles, or the equator :)
-    calculateMapBounds (coordinatePairs, margin) {
-    margin = margin || 0.01;
+    calculateMapBounds (riders, margin) {
+        const coordinatePairs = this.constructor.extractCoordinates(riders);
+        margin = margin || 0.01;
         const bounds = coordinatePairs
         .reduce(function (bounds, coords) {
             return [
