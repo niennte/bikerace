@@ -9,13 +9,13 @@
       <ul class="navbar-nav scrollNav mx-auto">
         <li class="nav-item pr-lg-5 welcome <%= css_active(welcome_page?) %>">
           <%= link_to root_path, :class => "nav-link text-expanded" do %>
-              <%= content_tag :span, 'Welcome', :class => "logoLink" %>
+              <%= content_tag :span, 'Home', :class => "logoLink" %>
               <%= content_tag :span, "(current)", :class => "sr-only" %>
           <% end %>
         </li>
         <li class="nav-item pr-lg-5 photos <%= css_active(photos_page?) %>">
           <%= link_to photos_path, :class => "nav-link text-expanded" do %>
-              <%= content_tag :span, 'Photos' %>
+              <%= content_tag :span, 'Gallery' %>
           <% end %>
         </li>
         <li class="nav-item pr-lg-5 riders <%= css_active(riders_page?) %>">
@@ -25,7 +25,7 @@
         </li>
         <li class="nav-item pr-lg-5 location <%= css_active(location_page?) %>">
           <%= link_to location_path, :class => "nav-link text-expanded" do %>
-              <%= content_tag :span, 'Location' %>
+              <%= content_tag :span, 'Map' %>
           <% end %>
         </li>
         <li class="nav-item pr-lg-5 contest <%= css_active(contest_page?) %>">
