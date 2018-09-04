@@ -16,6 +16,7 @@ class RealTimeDataStream extends Component {
                 latitude: 40
             }
         };
+        console.log(this.state.riders);
 
         this.running = null;
 
@@ -65,20 +66,42 @@ class RealTimeDataStream extends Component {
                 }
             }
         });
-
         const updateRider = {
             id: 1,
             coordinates: [(this.state.test.longitude), this.state.test.latitude]
         };
-
         this.pubnubListener.publish({ message: updateRider, channel: 'channel1' }, (response) => {
             console.log(response);
         });
     }
 
+    simulator() {
+        this.state.riders.forEach((rider) => {
+            const latitude = parseFloat(rider.coordinates[1]) - 0.0002;
+            const longitudeShift =  Math.random()/1000 - Math.random()/1000;
+            const longitude = rider.coordinates[0] + longitudeShift;
+            rider.coordinates = [longitude, latitude];
+            this.setState((prevState) => {
+                const riders = prevState.riders;
+                riders[(rider.properties.riderId - 1)] = rider;
+
+                const updatedRider = {
+                    id: rider.properties.riderId,
+                    coordinates: rider.coordinates
+                };
+                console.log(updatedRider);
+                this.pubnubListener.publish({ message: updatedRider, channel: "channel1" }, (response) => {
+                    console.log(response);
+                });
+
+                return riders;
+            });
+        });
+    }
+
     startRealTime() {
         this.publish();
-        this.running = window.setInterval(this.publish.bind(this), 500);
+        this.running = window.setInterval(this.simulator.bind(this), 500);
     }
 
     stopRealTime() {
@@ -98,15 +121,15 @@ class RealTimeDataStream extends Component {
 
         return (
             <div>
-                <button onClick={this.startRealTime.bind(this)}>Start RealTime</button>
-                <button onClick={this.stopRealTime.bind(this)}>Stop RealTime</button>
+                <button onClick={this.startRealTime.bind(this)}>Run simulator</button>
+                <button onClick={this.stopRealTime.bind(this)}>Stop simulator</button>
 
 
                 <Map
                     riders={this.state.riders}
                     service={this.props.service}
                     />
-                
+
             </div>
         );
     }
