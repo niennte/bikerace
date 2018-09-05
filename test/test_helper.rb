@@ -14,4 +14,8 @@ class ActiveSupport::TestCase
     (-1...(rand(length))).map { ('a'..'z').to_a[rand(26)] }.join
   end
 
+  def valid_email
+    "#{string_of_max(9)}@#{string_of_max(9)}.#{string_of_max(5)}"
+  end
+
 end

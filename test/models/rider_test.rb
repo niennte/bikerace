@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class RiderTest < ActiveSupport::TestCase
-  
+
   setup do
     # Generate random values meeting validation criteria
     @valid = build_valid_fields
