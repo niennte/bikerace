@@ -4,14 +4,14 @@ one:
   first_name: MyString
   last_name: MyString
   city: MyString
-  state: MyString
+  state: MO
   latitude: 1.5
-  longitutde: 1.5
+  longitude: 1.5
 
 two:
   first_name: MyString
   last_name: MyString
   city: MyString
-  state: MyString
+  state: CA
   latitude: 1.5
-  longitutde: 1.5
+  longitude: 1.5

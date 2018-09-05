@@ -17,7 +17,7 @@ class RidersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create rider" do
     assert_difference('Rider.count') do
-      post riders_url, params: { rider: { city: @rider.city, first_name: @rider.first_name, last_name: @rider.last_name, latitude: @rider.latitude, longitutde: @rider.longitutde, state: @rider.state } }
+      post riders_url, params: { rider: { city: @rider.city, first_name: @rider.first_name, last_name: @rider.last_name, latitude: @rider.latitude, longitude: @rider.longitude, state: @rider.state } }
     end
 
     assert_redirected_to rider_url(Rider.last)
@@ -34,7 +34,7 @@ class RidersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update rider" do
-    patch rider_url(@rider), params: { rider: { city: @rider.city, first_name: @rider.first_name, last_name: @rider.last_name, latitude: @rider.latitude, longitutde: @rider.longitutde, state: @rider.state } }
+    patch rider_url(@rider), params: { rider: { city: @rider.city, first_name: @rider.first_name, last_name: @rider.last_name, latitude: @rider.latitude, longitude: @rider.longitude, state: @rider.state } }
     assert_redirected_to rider_url(@rider)
   end
 
