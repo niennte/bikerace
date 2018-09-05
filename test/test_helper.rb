@@ -6,5 +6,12 @@ class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
 
-  # Add more helper methods to be used by all tests here...
+  def string_of(length)
+    (0...length).map { ('a'..'z').to_a[rand(26)] }.join
+  end
+
+  def string_of_max(length)
+    (-1...(rand(length))).map { ('a'..'z').to_a[rand(26)] }.join
+  end
+
 end
