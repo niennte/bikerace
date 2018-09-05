@@ -1,6 +1,8 @@
 require 'test_helper'
+require 'helpers/model_helper'
 
 class SloganIdeaTest < ActiveSupport::TestCase
+  include ModelHelper
 
   setup do
     # Generate random values meeting validation criteria
@@ -23,61 +25,29 @@ class SloganIdeaTest < ActiveSupport::TestCase
   end
 
   test 'is invalid unless first name valid' do
-
-    model = @valid_model
-
-    @invalid[:first_name].each do |value|
-      model.first_name = value
-      refute model.valid?
-      assert model.errors[:first_name].any?
-    end
-
+    standard_validation :first_name
   end
 
   test 'is invalid unless last name valid' do
-
-    model = @valid_model
-
-    @invalid[:last_name].each do |value|
-      model.last_name = value
-      refute model.valid?
-      assert model.errors[:last_name].any?
-    end
-
+    standard_validation :last_name
   end
 
   test 'is invalid unless email valid' do
-
-    model = @valid_model
-
-    @invalid[:email].each do |value|
-      model.email = value
-      refute model.valid?
-      assert model.errors[:email].any?
-    end
-
+    standard_validation :email
   end
 
   test 'is invalid unless idea valid' do
-
-    model = @valid_model
-
-    @invalid[:idea].each do |value|
-      model.idea = value
-      refute model.valid?
-      assert model.errors[:idea].any?
-    end
-
+    standard_validation :idea
   end
 
   private
 
   def build_valid_fields
     {
-      first_name: string_of_max(50),
-      last_name: string_of_max(50),
-      email: valid_email,
-      idea: string_of_max(50)
+      first_name: [string_of_max(50)],
+      last_name: [string_of_max(50)],
+      email: [valid_email],
+      idea: [string_of_max(50)]
     }
   end
 
@@ -108,10 +78,10 @@ class SloganIdeaTest < ActiveSupport::TestCase
 
   def sample_valid_model
     SloganIdea.new(
-      first_name: @valid[:first_name],
-      last_name: @valid[:last_name],
-      email: @valid[:email],
-      idea: @valid[:idea]
+      first_name: @valid[:first_name][rand(@valid[:first_name].length)],
+      last_name: @valid[:last_name][rand(@valid[:first_name].length)],
+      email: @valid[:email][rand(@valid[:first_name].length)],
+      idea: @valid[:idea][rand(@valid[:first_name].length)]
     )
   end
 

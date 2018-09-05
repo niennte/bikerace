@@ -110,28 +110,28 @@ class RiderTest < ActiveSupport::TestCase
   def build_invalid_fields
     {
       first_name: [
-          nil,
-          string_of(51)
+        nil,
+        string_of(51)
       ],
       last_name: [
-          nil,
-          string_of(51)
+        nil,
+        string_of(51)
       ],
       city: [
-          nil,
-          string_of(51)
+        nil,
+        string_of(51)
       ],
       state: [
-          nil,
-          string_of(3)
+        nil,
+        string_of(3)
       ],
       latitude: [
-          true,
-          string_of(rand(10))
+        true,
+        string_of_max(10)
       ],
       longitude: [
-          true,
-          string_of(rand(10))
+        true,
+        string_of_max(10)
       ]
     }
   end
