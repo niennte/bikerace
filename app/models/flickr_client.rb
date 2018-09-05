@@ -37,6 +37,9 @@ class FlickrClient
     @params[:per_page] = page_size
     compose_request
     call_service
+    if @response["photos"].nil?
+      return nil
+    end
     map_response
     result
   end

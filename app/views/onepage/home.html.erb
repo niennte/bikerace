@@ -17,10 +17,12 @@
           <a class="nav-link text-expanded" href="#about">About
           </a>
         </li>
-        <li class="nav-item px-lg-5">
-          <a class="nav-link text-expanded" href="#photos">Gallery
-          </a>
-        </li>
+        <% unless @flickr.nil? %>
+          <li class="nav-item px-lg-5">
+            <a class="nav-link text-expanded" href="#photos">Gallery
+            </a>
+          </li>
+        <% end %>
         <li class="nav-item px-lg-5">
           <a class="nav-link text-expanded" href="#riders">Riders
           </a>
@@ -93,9 +95,11 @@
 
 <!-- Flickr gallery -->
 <!-- Photos -->
-<section id="photos" class="py-5 gallery gallery-container">
-  <%= react_component("Gallery", { flickr: @flickr, service: request.base_url + '/' + photos_path, layout: @layout }, {prerender: true}) %>
-</section>
+<% unless @flickr.nil? %>
+  <section id="photos" class="py-5 gallery gallery-container">
+    <%= react_component("Gallery", { flickr: @flickr, service: request.base_url + '/' + photos_path, layout: @layout }, {prerender: true}) %>
+  </section>
+<% end %>
 
 <!-- The Riders List -->
 <section class="py-5 container" id="riders">
