@@ -1,7 +1,13 @@
 require 'http'
 
+# Deal with calling flickr service
+# - Calculate pagination
+# - Map response to collection
+# - Return nil if the call fails
+
 class FlickrClient
 
+  attr_accessor :params, :service
   attr_reader :collection, :page, :page_size, :total, :pages
 
   API_KEY = ENV['API_KEY']
@@ -11,6 +17,7 @@ class FlickrClient
   DEFAULT_PAGINATOR_RANGE = 5
 
   def initialize
+    @service = SERVICE_URI
     @params = {
       :method => 'flickr.photos.search',
       :api_key => API_KEY,
@@ -37,30 +44,35 @@ class FlickrClient
     @params[:per_page] = page_size
     compose_request
     call_service
-    if @response["photos"].nil?
-      return nil
-    end
     map_response
-    result
   end
 
   def call_service
-    @response = JSON.parse HTTP.get(@request)
+    begin
+      @response = JSON.parse HTTP.get(@request)
+    rescue
+      nil
+    end
   end
 
   def compose_request
-    @uri = URI.parse(SERVICE_URI)
+    @uri = URI.parse(@service)
     @uri.query = URI.encode_www_form(@params)
     @request = @uri.to_s
   end
 
   def map_response
+    begin
     @page = @response["photos"]["page"]
     @pages = @response["photos"]["pages"]
     @page_size = @response["photos"]["perpage"]
     @total = @response["photos"]["total"]
     @response["photos"]["photo"].each do |photo|
       @collection.push(Photo.new(photo).result )
+    end
+      result
+    rescue
+      nil
     end
   end
 
@@ -72,6 +84,8 @@ class FlickrClient
     @page + 1 <= @pages
   end
 
+  # place active page in the middle of the specified range,
+  # account for beginning and end
   def paginator(paginator_range: DEFAULT_PAGINATOR_RANGE)
     range = (1..paginator_range)
     if (@page - paginator_range / 2) > 0 && (@page + paginator_range / 2) <= @pages
