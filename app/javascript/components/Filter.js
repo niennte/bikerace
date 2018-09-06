@@ -23,7 +23,7 @@ class Filter extends Component {
                     <input
                         className="form-control"
                         type="text"
-                        placeholder="Search by name"
+                        placeholder="Filter by id, name, or city"
                         value={this.props.filterText}
                         onChange={this.handleChange}
                         name="filterText"

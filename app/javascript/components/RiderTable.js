@@ -60,7 +60,13 @@ class RiderTable extends Component {
         let rows = [];
         this.sortRiders().forEach(
             (rider) => {
-                if ( rider.name.indexOf(this.props.filterText) > -1 ) {
+
+                const nameInFilter = rider.name.indexOf(this.props.filterText) > -1;
+                const idInFilter = rider.id.toString().indexOf(this.props.filterText) > -1;
+                const cityInFilter = rider.origin.indexOf(this.props.filterText) > -1;
+
+
+                if ( nameInFilter || idInFilter || cityInFilter ) {
                     rows.push(
                         <RiderRow
                             rider={rider}

@@ -25,7 +25,7 @@ class Riders extends Component {
                     <div className="row">
                     <h4 className="display-4 athletic-blue text-center col-12 col-sm-6 order-1 order-sm-2">Riders</h4>
                     <Filter
-                        className="col-12 col-sm-6 pt-2 pt-sm-4 order-2 order-sm-1"
+                        className="col-12 col-sm-6 pt-2 pt-sm-3 order-2 order-sm-1"
                         filterText={this.state.filterText}
                         onFilter={this.handleFilter}
                     />
