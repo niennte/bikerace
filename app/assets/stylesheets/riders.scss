@@ -16,3 +16,42 @@
     width: 150px;
   }
 }
+
+
+.riders {
+
+  .riders-container {
+
+    table {
+
+      td, th {
+        text-align: center;
+        vertical-align: middle;
+        border-left: 0;
+        border-right: 0;
+      }
+
+      td:first-child,
+      td:first-child+td {
+        width: 120px;
+      }
+
+      td:first-child+td {
+        width: 120px;
+      }
+
+      .actions {
+        .btn {
+          width: 40px;
+        }
+      }
+    }
+
+  }
+
+  @media(max-width: 350px) {
+    table td {
+      padding: 0.25rem;
+    }
+  }
+}

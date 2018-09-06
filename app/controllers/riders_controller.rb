@@ -4,12 +4,24 @@ class RidersController < ApplicationController
   # GET /riders
   # GET /riders.json
   def index
-    @riders = Rider.all.order('id')
+    @riders = Rider.all.order('id').map do |rider|
+      rider.extend(RiderView).for_react
+    end
+    respond_to do |format|
+      format.html
+      format.json { render json: @riders }
+    end
   end
 
   # GET /list
   # GET /list.json
   def list
+    @riders = Rider.all.order('id')
+  end
+
+  # GET /riders-static
+  # GET /riders-static.json
+  def static
     @riders = Rider.all.order('id')
   end
 
