@@ -43,6 +43,10 @@ class RidersController < ApplicationController
     @riders = Rider.all.order('id').map do |rider|
       rider.extend(RiderView).for_react
     end
+    @pn_creds = {
+        publish_key: ENV['PN_PUB_KEY'],
+        subscribe_key: ENV['PN_SUB_KEY']
+    }
     respond_to do |format|
       format.html
       format.json { render json: @riders }
