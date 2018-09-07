@@ -102,31 +102,8 @@
 <% end %>
 
 <!-- The Riders List -->
-<section class="py-5 container" id="riders">
-
-  <h1>Riders</h1>
-
-  <table class="table table-bordered table-striped">
-    <thead class="thead-light">
-    <tr>
-      <th>Id</th>
-      <th>Name</th>
-      <th>City of Origin</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    <% @riders.each do |rider| %>
-        <% rider.extend(RiderView) %>
-        <tr>
-          <td><%= rider.id %></td>
-          <td><%= rider.full_name %></td>
-          <td><%= rider.city_of_origin %></td>
-        </tr>
-    <% end %>
-    </tbody>
-  </table>
-
+<section class="riders riders-container py-5" id="riders">
+  <%= react_component("Riders", { riders: @rider_locations, service: request.base_url + '/' + riders_path }, {prerender: false}) %>
 </section>
 
 <!-- The Map -->

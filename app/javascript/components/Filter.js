@@ -8,6 +8,7 @@ class Filter extends Component {
     }
 
     handleChange(e) {
+        e.preventDefault();
         let value = e.target["value"];
         let name = e.target.name;
 
