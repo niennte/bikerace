@@ -14,4 +14,5 @@ Rails.application.routes.draw do
   get '/photos', to: 'photos#gallery'
   get '/location-static', to: 'riders#location'
   get '/location', to: 'riders#map'
+  get '/real-time-updates', to: 'riders#real_time_updates'
 end

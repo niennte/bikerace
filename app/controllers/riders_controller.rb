@@ -37,16 +37,29 @@ class RidersController < ApplicationController
     end
   end
 
+
   # GET /location-static
   # GET /location-static.json
   def location
-    @riders = Rider.all.order('id').map do |rider|
-      rider.extend(RiderView).for_react
-    end
     @pn_creds = {
         publish_key: ENV['PN_PUB_KEY'],
         subscribe_key: ENV['PN_SUB_KEY']
     }
+
+    @riders = Rider.all.order('id').map do |rider|
+      rider.extend(RiderView).for_react
+    end
+  end
+
+  def real_time_updates
+    @pn_creds = {
+        publish_key: ENV['PN_PUB_KEY'],
+        subscribe_key: ENV['PN_SUB_KEY']
+    }
+
+    @riders = Rider.all.order('id').map do |rider|
+      rider.extend(RiderView).for_react
+    end
     respond_to do |format|
       format.html
       format.json { render json: @riders }

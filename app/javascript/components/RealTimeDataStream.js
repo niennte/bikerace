@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import PubNubReact from "pubnub-react";
 import Map from "./Map";
+import Riders from "./Riders";
 
 
 class RealTimeDataStream extends Component {
@@ -80,18 +81,19 @@ class RealTimeDataStream extends Component {
 
     render() {
         const messages = this.pubnubListener.getMessage("channel1");
+        const { riders } = this.state;
+        const { service } = this.props;
 
         return (
             <Fragment>
+                { this.props.children }
+
                 <button onClick={this.startRealTime.bind(this)}>Run simulator</button>
                 <button onClick={this.stopRealTime.bind(this)}>Stop simulator</button>
 
-
                 <Map
-                    riders={this.state.riders}
-                    service={this.props.service}
-                    />
-
+                    riders={riders}
+                    service={service} />
             </Fragment>
         );
     }

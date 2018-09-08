@@ -107,12 +107,12 @@ class Map extends React.Component {
         const coordinatePairs = this.constructor.extractCoordinates(riders);
         margin = margin || 0.01;
         const bounds = coordinatePairs
-        .reduce(function (bounds, coords) {
-            return [
-                [Math.min(bounds[0][0], coords[0]), Math.min(bounds[0][1], coords[1])],
-                [Math.max(bounds[1][0], coords[0]), Math.max(bounds[1][1], coords[1])]
-            ];
-        }, [coordinatePairs[0], coordinatePairs[0]]);
+            .reduce(function (bounds, coords) {
+                return [
+                    [Math.min(bounds[0][0], coords[0]), Math.min(bounds[0][1], coords[1])],
+                    [Math.max(bounds[1][0], coords[0]), Math.max(bounds[1][1], coords[1])]
+                ];
+            }, [coordinatePairs[0], coordinatePairs[0]]);
         return [
             bounds[0].map(function (val) {
                 return val - margin;
@@ -173,16 +173,16 @@ class Map extends React.Component {
                             layout={layerLayoutOptions}
                             paint={layerPaintOptions}
                         >
-                        {riders.map((rider, index) => (
-                            <Feature
-                                key={index}
-                                onMouseEnter={this.onToggleHover.bind(this, "pointer")}
-                                onMouseLeave={this.onToggleHover.bind(this, "")}
-                                onClick={this.markerClick.bind(this)}
-                                coordinates={rider.coordinates}
-                                properties={rider.properties}
-                            />
-                        ))}
+                            {riders.map((rider, index) => (
+                                <Feature
+                                    key={index}
+                                    onMouseEnter={this.onToggleHover.bind(this, "pointer")}
+                                    onMouseLeave={this.onToggleHover.bind(this, "")}
+                                    onClick={this.markerClick.bind(this)}
+                                    coordinates={rider.coordinates}
+                                    properties={rider.properties}
+                                />
+                            ))}
                         </Layer>
                         {rider && (
                             <Popup
