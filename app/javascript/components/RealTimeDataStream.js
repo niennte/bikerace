@@ -86,12 +86,16 @@ class RealTimeDataStream extends Component {
 
         return (
             <Fragment>
-                { this.props.children }
+                <Riders
+                    onHighlight={ this.props.onHighlight }
+                    riders={ riders }
+                    service={ service } />
 
                 <button onClick={this.startRealTime.bind(this)}>Run simulator</button>
                 <button onClick={this.stopRealTime.bind(this)}>Stop simulator</button>
 
                 <Map
+                    highlightedRider={ this.props.highlightedRider }
                     riders={riders}
                     service={service} />
             </Fragment>

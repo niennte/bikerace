@@ -3,6 +3,12 @@ import React, { Component } from "react";
 class RiderRow extends Component {
     constructor(props) {
         super(props);
+        this.handleHighlight = this.handleHighlight.bind(this);
+    }
+
+    handleHighlight(e) {
+        const id = e.currentTarget.dataset.id;
+        this.props.onHighlight(id)
     }
 
     render() {
@@ -19,7 +25,10 @@ class RiderRow extends Component {
                             <i className="fa fa-eye"/>
                         </button>
 
-                        <button className="btn btn-light ">
+                        <button
+                            className="btn btn-light"
+                            data-id={this.props.rider.id}
+                            onClick={this.handleHighlight} >
                             <i className="fa fa-map-marker"/>
                         </button>
                     </nav>

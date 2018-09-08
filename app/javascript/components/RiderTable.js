@@ -69,6 +69,7 @@ class RiderTable extends Component {
                 if ( nameInFilter || idInFilter || cityInFilter ) {
                     rows.push(
                         <RiderRow
+                            onHighlight={this.props.onHighlight}
                             rider={rider}
                             key={rider.id}
                         />

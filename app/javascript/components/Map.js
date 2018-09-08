@@ -155,6 +155,8 @@ class Map extends React.Component {
 
         const { riders, mapBounds, rider  } = this.state;
 
+        console.log(this.props.highlightedRider);
+
         return (
             <React.Fragment>
                 <div className="container-fluid m-0 p-0">

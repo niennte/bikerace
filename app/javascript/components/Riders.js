@@ -31,6 +31,7 @@ class Riders extends Component {
                     />
                     </div>
                     <RiderTable
+                        onHighlight={this.props.onHighlight}
                         riders={this.state.riders}
                         filterText={this.state.filterText}
                     >
