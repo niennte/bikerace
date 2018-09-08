@@ -170,6 +170,7 @@ class Map extends React.Component {
 
         return (
             <React.Fragment>
+                <section id="map">
                 <div className="container-fluid m-0 p-0">
 
                     <Mapbox
@@ -245,6 +246,7 @@ class Map extends React.Component {
 
                     </Mapbox>
                 </div>
+                </section>
 
             </React.Fragment>
         );

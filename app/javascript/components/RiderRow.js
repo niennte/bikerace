@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import AnchorLink from "react-anchor-link-smooth-scroll";
 
 class RiderRow extends Component {
     constructor(props) {
@@ -25,12 +26,14 @@ class RiderRow extends Component {
                             <i className="fa fa-eye"/>
                         </button>
 
-                        <button
+                        <AnchorLink offset={() => 50} href="#map"
                             className="btn btn-light"
                             data-id={this.props.rider.id}
                             onClick={this.handleHighlight} >
+
                             <i className="fa fa-map-marker"/>
-                        </button>
+                        </AnchorLink>
+
                     </nav>
                 </td>
                 <td>
