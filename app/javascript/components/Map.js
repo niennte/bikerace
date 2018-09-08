@@ -157,6 +157,17 @@ class Map extends React.Component {
 
         console.log(this.props.highlightedRider);
 
+        let highlightItem = null;
+
+        if (this.props.highlightedRider) {
+            highlightItem = {
+                id: this.props.highlightedRider,
+                position: riders[this.props.highlightedRider-1].coordinates
+            };
+        }
+
+        console.log(highlightItem);
+
         return (
             <React.Fragment>
                 <div className="container-fluid m-0 p-0">
@@ -212,6 +223,23 @@ class Map extends React.Component {
                                     </p>
 
                                 </StyledPopup>
+                            </Popup>
+                        )}
+                        { highlightItem && (
+                            <Popup
+                                anchor="top"
+                                className="mapboxHighlight"
+                                style={{
+                                    "background": "transparent",
+                                    "zIndex": "2",
+                                    "width": "32px",
+                                    "height": "32px",
+                                    "top": "-16px",
+                                    "borderRadius": "50%",
+                                    "boxShadow": "0px 0px 0px 10px orange"
+                                }}
+                                key={highlightItem.id}
+                                coordinates={highlightItem.position}>
                             </Popup>
                         )}
 

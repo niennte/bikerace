@@ -91,8 +91,8 @@ class RealTimeDataStream extends Component {
                     riders={ riders }
                     service={ service } />
 
-                <button onClick={this.startRealTime.bind(this)}>Run simulator</button>
-                <button onClick={this.stopRealTime.bind(this)}>Stop simulator</button>
+                {/*<button onClick={this.startRealTime.bind(this)}>Run simulator</button>*/}
+                {/*<button onClick={this.stopRealTime.bind(this)}>Stop simulator</button>*/}
 
                 <Map
                     highlightedRider={ this.props.highlightedRider }
