@@ -62,8 +62,9 @@ class Map extends React.Component {
             mapBounds: this.calculateMapBounds(riders)
         };
 
-        this.applyMapBounds = this.applyMapBounds.bind(this)
-        this.enablePopup = this.enablePopup.bind(this)
+        this.applyMapBounds = this.applyMapBounds.bind(this);
+        this.addPopup = this.addPopup.bind(this);
+        this.removePopup = this.removePopup.bind(this)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -77,19 +78,21 @@ class Map extends React.Component {
 
         // update Popup position if it's open
         // to follow the object it belongs to
-        if (this.state.rider) {
-            this.setState((prevState) => {
+        this.setState((prevState) => {
+            if (prevState.rider) {
                 let rider = prevState.rider;
                 rider.position = nextProps.riders[(rider.id - 1)].coordinates;
                 return {
                     rider: rider
                 };
-            });
-        }
+            } else {
+                return prevState;
+            }
+        });
 
         // if a rider is highlighted, show popup
         if (nextProps.highlightedRider) {
-            this.enablePopup(nextProps.highlightedRider);
+            this.addPopup(nextProps.highlightedRider);
         }
     }
 
@@ -140,10 +143,10 @@ class Map extends React.Component {
     }
 
     markerClick(e) {
-        this.enablePopup(e.feature.properties.riderId);
+        this.addPopup(e.feature.properties.riderId);
     }
 
-    enablePopup(riderId) {
+    addPopup(riderId) {
         const rider = this.state.riders[(riderId - 1)];
         if (rider) {
             this.setState({
@@ -157,17 +160,22 @@ class Map extends React.Component {
         }
     }
 
-    popupCloseClick(e) {
+    removePopup() {
         this.setState({
             rider: null
-        })
+        });
+        this.props.onUnHighlight();
+    }
+
+    popupCloseClick() {
+        this.removePopup();
     }
 
 
     render () {
 
         const { riders, mapBounds, rider  } = this.state;
-        
+
         return (
             <React.Fragment>
                 <section id="map">

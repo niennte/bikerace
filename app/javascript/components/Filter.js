@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class Filter extends Component {
 
@@ -19,7 +19,8 @@ class Filter extends Component {
 
     render() {
         return(
-            <form className={`${this.props.className}`}>
+            <form className={`${this.props.className}`}
+            onSubmit={(e) => {e.preventDefault();}}>
                 <div className="form-group">
                     <input
                         className="form-control"

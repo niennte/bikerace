@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from "react";
 import PubNubReact from "pubnub-react";
-import Map from "./Map";
-import Riders from "./Riders";
 
 
 class RealTimeDataStream extends Component {
@@ -36,11 +34,7 @@ class RealTimeDataStream extends Component {
     }
 
     updateMapProps(message) {
-        this.setState((prevState) => {
-            let riders = this.state.riders;
-            riders[(message.id - 1)]["coordinates"] = message.coordinates;
-            return riders;
-        });
+        this.props.onDataStreamUpdate(message);
     }
 
     simulator() {
@@ -86,18 +80,10 @@ class RealTimeDataStream extends Component {
 
         return (
             <Fragment>
-                <Riders
-                    onHighlight={ this.props.onHighlight }
-                    riders={ riders }
-                    service={ service } />
-
-                <button onClick={this.startRealTime.bind(this)}>Run simulator</button>
-                <button onClick={this.stopRealTime.bind(this)}>Stop simulator</button>
-
-                <Map
-                    highlightedRider={ this.props.highlightedRider }
-                    riders={riders}
-                    service={service} />
+                <nav className="nav justify-content-around actions">
+                    <button className="btn btn-light" onClick={this.startRealTime.bind(this)}>Run simulator</button>
+                    <button className="btn btn-light" onClick={this.stopRealTime.bind(this)}>Stop simulator</button>
+                </nav>
             </Fragment>
         );
     }
