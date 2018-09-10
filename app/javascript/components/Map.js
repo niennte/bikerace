@@ -63,6 +63,7 @@ class Map extends React.Component {
         };
 
         this.applyMapBounds = this.applyMapBounds.bind(this)
+        this.enablePopup = this.enablePopup.bind(this)
     }
 
     componentWillReceiveProps(nextProps) {
@@ -84,6 +85,11 @@ class Map extends React.Component {
                     rider: rider
                 };
             });
+        }
+
+        // if a rider is highlighted, show popup
+        if (nextProps.highlightedRider) {
+            this.enablePopup(nextProps.highlightedRider);
         }
     }
 
@@ -134,14 +140,21 @@ class Map extends React.Component {
     }
 
     markerClick(e) {
-        this.setState({
-            rider: {
-                id: e.feature.properties.riderId,
-                position: e.feature.geometry.coordinates,
-                name: e.feature.properties.full_name,
-                origin: e.feature.properties.city_of_origin
-            }
-        });
+        this.enablePopup(e.feature.properties.riderId);
+    }
+
+    enablePopup(riderId) {
+        const rider = this.state.riders[(riderId - 1)];
+        if (rider) {
+            this.setState({
+                rider: {
+                    id: riderId,
+                    position: rider.coordinates,
+                    name: rider.properties.full_name,
+                    origin: rider.properties.city_of_origin
+                }
+            });
+        }
     }
 
     popupCloseClick(e) {
@@ -154,20 +167,7 @@ class Map extends React.Component {
     render () {
 
         const { riders, mapBounds, rider  } = this.state;
-
-        console.log(this.props.highlightedRider);
-
-        let highlightItem = null;
-
-        if (this.props.highlightedRider) {
-            highlightItem = {
-                id: this.props.highlightedRider,
-                position: riders[this.props.highlightedRider-1].coordinates
-            };
-        }
-
-        console.log(highlightItem);
-
+        
         return (
             <React.Fragment>
                 <section id="map">
@@ -210,7 +210,7 @@ class Map extends React.Component {
                                         x
                                     </StyledButton>
                                     <p>
-                                        <span className="badge badge-primary">
+                                        <span className="badge badge-light">
                                             #{rider.id}
                                         </span>
                                         <br/>
@@ -224,23 +224,6 @@ class Map extends React.Component {
                                     </p>
 
                                 </StyledPopup>
-                            </Popup>
-                        )}
-                        { highlightItem && (
-                            <Popup
-                                anchor="top"
-                                className="mapboxHighlight"
-                                style={{
-                                    "background": "transparent",
-                                    "zIndex": "2",
-                                    "width": "32px",
-                                    "height": "32px",
-                                    "top": "-16px",
-                                    "borderRadius": "50%",
-                                    "boxShadow": "0px 0px 0px 10px orange"
-                                }}
-                                key={highlightItem.id}
-                                coordinates={highlightItem.position}>
                             </Popup>
                         )}
 
