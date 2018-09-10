@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import RealTimeDataStream from "./RealTimeDataStream";
+import RealTimeSimulator from "./RealTimeSimulator";
 import Map from "./Map";
 import Riders from "./Riders";
 
@@ -38,23 +39,28 @@ class RealTimeUpdates extends Component {
     }
 
     render() {
-        const { riders, service, pubnub_creds } = this.props;
-        const { highlightedRider } = this.state;
+        const { pubnub_creds, show_simulator } = this.props;
+        const { highlightedRider, riders } = this.state;
         return (
             <Fragment>
                 <Riders
                     onHighlight={ this.handleHighlight }
-                    riders={ riders } />
+                    riders={ this.props.riders } />
 
                 <Map
                     highlightedRider={ highlightedRider }
-                    onUnHighlight={ this.handleRemoveHighlight }
+                    clearHighlight={ this.handleRemoveHighlight }
                     riders={ riders } />
 
                 <RealTimeDataStream
                     onDataStreamUpdate={this.updateMapProps}
+                    pubnub_creds={ pubnub_creds } />
+
+                { show_simulator && <RealTimeSimulator
                     pubnub_creds={ pubnub_creds }
-                    riders={ riders } />
+                    riders={ this.props.riders }
+                />
+                }
             </Fragment>
         );
     }

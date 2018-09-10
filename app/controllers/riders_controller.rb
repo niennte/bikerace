@@ -52,6 +52,7 @@ class RidersController < ApplicationController
   end
 
   def real_time_updates
+    @show_simulator = Rails.env.development?
     @pn_creds = {
         publish_key: ENV['PN_PUB_KEY'],
         subscribe_key: ENV['PN_SUB_KEY']

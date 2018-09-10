@@ -147,6 +147,7 @@ class Map extends React.Component {
     }
 
     addPopup(riderId) {
+        this.props.clearHighlight();
         const rider = this.state.riders[(riderId - 1)];
         if (rider) {
             this.setState({
@@ -161,10 +162,10 @@ class Map extends React.Component {
     }
 
     removePopup() {
+        this.props.clearHighlight();
         this.setState({
             rider: null
         });
-        this.props.onUnHighlight();
     }
 
     popupCloseClick() {
@@ -193,8 +194,8 @@ class Map extends React.Component {
                             type="symbol"
                             id="bikerace"
                             layout={layerLayoutOptions}
-                            paint={layerPaintOptions}
-                        >
+                            paint={layerPaintOptions} >
+
                             {riders.map((rider, index) => (
                                 <Feature
                                     key={index}
