@@ -55,17 +55,47 @@ class Map extends React.Component {
         this.SERVICE_PATH = props.service;
 
         let riders = props.riders;
-        let coordinates = this.constructor.extractCoordinates(riders);
 
         this.state = {
-            rider: null,
+            rider: null, // the Popup
             riders: riders,
-            coordinates: coordinates,
-            mapBounds: this.calculateMapBounds(coordinates)
+            mapBounds: this.calculateMapBounds(riders)
         };
 
-        this.applyMapBounds = this.applyMapBounds.bind(this)
+        this.applyMapBounds = this.applyMapBounds.bind(this);
+        this.addPopup = this.addPopup.bind(this);
+        this.removePopup = this.removePopup.bind(this)
     }
+
+    componentWillReceiveProps(nextProps) {
+
+        // update object positions and rescale the map
+        this.setState({
+            riders: nextProps.riders,
+            mapBounds: this.calculateMapBounds(nextProps.riders)
+        });
+        this.applyMapBounds();
+
+        // update Popup position if it's open
+        // to follow the object it belongs to
+        this.setState((prevState) => {
+            if (prevState.rider) {
+                let rider = prevState.rider;
+                rider.position = nextProps.riders[(rider.id - 1)].coordinates;
+                return {
+                    rider: rider
+                };
+            } else {
+                return prevState;
+            }
+        });
+
+        // if a rider is highlighted, show popup
+        if (nextProps.highlightedRider) {
+            this.addPopup(nextProps.highlightedRider);
+        }
+    }
+
 
     static extractCoordinates(riders) {
         return riders
@@ -77,19 +107,21 @@ class Map extends React.Component {
             });
     };
 
-    // margin optional param allows to leave space between objects and map edges
+    // * Make map rescale to contain all objects
+    // margin - optional param, allows to leave space between objects and map edges
     // using degrees and latitude and longitude as unit
     // while longitude degree may vary, horizontal margins should not be the issue
-    // unless the riders make it close to the Earth's the poles, or the equator :)
-    calculateMapBounds (coordinatePairs, margin) {
-    margin = margin || 0.01;
+    // as long as the riders keep away from the Earth's the poles, and the equator :)
+    calculateMapBounds (riders, margin) {
+        const coordinatePairs = this.constructor.extractCoordinates(riders);
+        margin = margin || 0.01;
         const bounds = coordinatePairs
-        .reduce(function (bounds, coords) {
-            return [
-                [Math.min(bounds[0][0], coords[0]), Math.min(bounds[0][1], coords[1])],
-                [Math.max(bounds[1][0], coords[0]), Math.max(bounds[1][1], coords[1])]
-            ];
-        }, [coordinatePairs[0], coordinatePairs[0]]);
+            .reduce(function (bounds, coords) {
+                return [
+                    [Math.min(bounds[0][0], coords[0]), Math.min(bounds[0][1], coords[1])],
+                    [Math.max(bounds[1][0], coords[0]), Math.max(bounds[1][1], coords[1])]
+                ];
+            }, [coordinatePairs[0], coordinatePairs[0]]);
         return [
             bounds[0].map(function (val) {
                 return val - margin;
@@ -101,7 +133,7 @@ class Map extends React.Component {
     }
 
     applyMapBounds() {
-        // this.map points to the React wrapper
+        // NB: this.map points to the React wrapper
         // the actual map is stored as this.map.state.map
         this.map.state.map.fitBounds(this.state.mapBounds)
     }
@@ -111,20 +143,33 @@ class Map extends React.Component {
     }
 
     markerClick(e) {
+        this.addPopup(e.feature.properties.riderId);
+    }
+
+    addPopup(riderId) {
+        this.props.highlightedRider && this.props.clearHighlight();
+        const rider = this.state.riders[(riderId - 1)];
+        if (rider) {
+            this.setState({
+                rider: {
+                    id: riderId,
+                    position: rider.coordinates,
+                    name: rider.properties.full_name,
+                    origin: rider.properties.city_of_origin
+                }
+            });
+        }
+    }
+
+    removePopup() {
+        this.props.highlightedRider && this.props.clearHighlight();
         this.setState({
-            rider: {
-                id: e.feature.properties.riderId,
-                position: e.feature.geometry.coordinates,
-                name: e.feature.properties.full_name,
-                origin: e.feature.properties.city_of_origin
-            }
+            rider: null
         });
     }
 
-    popupCloseClick(e) {
-        this.setState({
-            rider: null
-        })
+    popupCloseClick() {
+        this.removePopup();
     }
 
 
@@ -148,18 +193,18 @@ class Map extends React.Component {
                             type="symbol"
                             id="bikerace"
                             layout={layerLayoutOptions}
-                            paint={layerPaintOptions}
-                        >
-                        {riders.map((rider, index) => (
-                            <Feature
-                                key={index}
-                                onMouseEnter={this.onToggleHover.bind(this, "pointer")}
-                                onMouseLeave={this.onToggleHover.bind(this, "")}
-                                onClick={this.markerClick.bind(this)}
-                                coordinates={rider.coordinates}
-                                properties={rider.properties}
-                            />
-                        ))}
+                            paint={layerPaintOptions} >
+
+                            {riders.map((rider, index) => (
+                                <Feature
+                                    key={index}
+                                    onMouseEnter={this.onToggleHover.bind(this, "pointer")}
+                                    onMouseLeave={this.onToggleHover.bind(this, "")}
+                                    onClick={this.markerClick.bind(this)}
+                                    coordinates={rider.coordinates}
+                                    properties={rider.properties}
+                                />
+                            ))}
                         </Layer>
                         {rider && (
                             <Popup
@@ -173,7 +218,7 @@ class Map extends React.Component {
                                         x
                                     </StyledButton>
                                     <p>
-                                        <span className="badge badge-primary">
+                                        <span className="badge badge-light">
                                             #{rider.id}
                                         </span>
                                         <br/>

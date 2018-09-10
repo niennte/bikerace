@@ -1,8 +1,8 @@
 <p id="notice"><%= notice %></p>
 <section class="py-5 container">
 
-  <h1>Location</h1>
+  <h1>Real time:)</h1>
 
-  <div id="map"></div>
+  <%= react_component("RealTimeDataStream", { riders: @riders, service: request.base_url + riders_path, pubnub_creds: @pn_creds }, {prerender: false}) %>
 
 </section>

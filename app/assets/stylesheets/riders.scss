@@ -20,6 +20,13 @@
 
 .riders {
 
+  .mapboxHighlight {
+    .mapboxgl-popup-content,
+    .mapboxgl-popup-tip {
+      display: none;
+    }
+  }
+
   .riders-container {
 
     table {
