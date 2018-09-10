@@ -9,12 +9,19 @@ class OnepageController < ApplicationController
     page_size = params[:page_size] && params[:page_size].to_i || 12
     @flickr = FlickrClient.new.fetch(page: page, page_size: page_size)
 
-    # data for the riders
-    @riders = Rider.all.order('id')
+    # data for the riders, and the map
+    @show_simulator = Rails.env.development?
+    @pn_creds = {
+        publish_key: ENV['PN_PUB_KEY'],
+        subscribe_key: ENV['PN_SUB_KEY']
+    }
 
-    # data for the map
-    @rider_locations = @riders.map do |rider|
+    @riders = Rider.all.order('id').map do |rider|
       rider.extend(RiderView).for_react
+    end
+    respond_to do |format|
+      format.html
+      format.json { render json: @riders }
     end
 
     # data for the slogan idea contest

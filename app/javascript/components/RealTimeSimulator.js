@@ -58,7 +58,7 @@ class RealTimeSimulator extends Component {
 
 
     componentWillUnmount() {
-        this.pubnub.unsubscribe({
+        this.pubnubListener.unsubscribe({
             channels: ["channel1"]
         });
     }

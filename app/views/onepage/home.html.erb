@@ -24,11 +24,8 @@
           </li>
         <% end %>
         <li class="nav-item px-lg-5">
-          <a class="nav-link text-expanded" href="#riders">Riders
-          </a>
-        </li>
-        <li class="nav-item px-lg-5">
-          <a class="nav-link text-expanded" href="#location">Map
+          <a class="nav-link text-expanded" href="#riders">
+            Riders
           </a>
         </li>
       </ul>
@@ -102,13 +99,8 @@
 <% end %>
 
 <!-- The Riders List -->
-<section class="riders riders-container py-5" id="riders">
-  <%= react_component("Riders", { riders: @rider_locations, service: request.base_url + '/' + riders_path }, {prerender: false}) %>
-</section>
-
-<!-- The Map -->
-<section class="p-0 m-0" id="location">
-  <%= react_component("Map", { riders: @rider_locations, service: request.base_url + riders_path }, {prerender: false}) %>
+<section class="real-time-updates" id="riders">
+  <%= react_component("RealTimeUpdates", { riders: @riders, service: request.base_url + riders_path, pubnub_creds: @pn_creds, show_simulator: @show_simulator }, {prerender: false}) %>
 </section>
 
 

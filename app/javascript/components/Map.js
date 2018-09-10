@@ -147,7 +147,7 @@ class Map extends React.Component {
     }
 
     addPopup(riderId) {
-        this.props.clearHighlight();
+        this.props.highlightedRider && this.props.clearHighlight();
         const rider = this.state.riders[(riderId - 1)];
         if (rider) {
             this.setState({
@@ -162,7 +162,7 @@ class Map extends React.Component {
     }
 
     removePopup() {
-        this.props.clearHighlight();
+        this.props.highlightedRider && this.props.clearHighlight();
         this.setState({
             rider: null
         });
@@ -179,7 +179,6 @@ class Map extends React.Component {
 
         return (
             <React.Fragment>
-                <section id="map">
                 <div className="container-fluid m-0 p-0">
 
                     <Mapbox
@@ -238,7 +237,6 @@ class Map extends React.Component {
 
                     </Mapbox>
                 </div>
-                </section>
 
             </React.Fragment>
         );

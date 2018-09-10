@@ -43,14 +43,21 @@ class RealTimeUpdates extends Component {
         const { highlightedRider, riders } = this.state;
         return (
             <Fragment>
+
+                <section className="riders riders-container py-5">
                 <Riders
+                    hasMap={true}
                     onHighlight={ this.handleHighlight }
                     riders={ this.props.riders } />
+                </section>
 
+                <section className="riders riders-container pt-5" id="map">
+                    <h4 className="display-4 athletic-orange text-center col-12 col-sm-6 order-1 order-sm-2">Real Time Location</h4>
                 <Map
                     highlightedRider={ highlightedRider }
                     clearHighlight={ this.handleRemoveHighlight }
-                    riders={ riders } />
+                    riders={ riders }
+                    service={ this.props.service } />
 
                 <RealTimeDataStream
                     onDataStreamUpdate={this.updateMapProps}
@@ -61,6 +68,7 @@ class RealTimeUpdates extends Component {
                     riders={ this.props.riders }
                 />
                 }
+                </section>
             </Fragment>
         );
     }

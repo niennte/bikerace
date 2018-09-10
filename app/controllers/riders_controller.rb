@@ -28,7 +28,7 @@ class RidersController < ApplicationController
   # GET /location
   # GET /location.json
   def map
-    @riders = Rider.all.map do |rider|
+    @riders = Rider.all.order('id').map do |rider|
       rider.extend(RiderView).for_react
     end
     respond_to do |format|
@@ -41,6 +41,7 @@ class RidersController < ApplicationController
   # GET /location-static
   # GET /location-static.json
   def location
+    @show_simulator = Rails.env.development?
     @pn_creds = {
         publish_key: ENV['PN_PUB_KEY'],
         subscribe_key: ENV['PN_SUB_KEY']

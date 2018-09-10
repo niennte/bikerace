@@ -31,6 +31,9 @@ class Riders extends Component {
                     />
                     </div>
                     <RiderTable
+                        hasMap={this.props.hasMap}
+                        hasLinks={this.props.hasLinks}
+                        service={this.props.service}
                         onHighlight={this.props.onHighlight}
                         riders={this.state.riders}
                         filterText={this.state.filterText}

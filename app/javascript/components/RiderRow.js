@@ -13,26 +13,29 @@ class RiderRow extends Component {
     }
 
     render() {
+
+        const { hasMap, hasLinks } = this.props;
+
         return(
             <tr>
                 <td>
                     <nav className="nav justify-content-around actions">
-                        <button
+                        { hasLinks && <button
                             className="btn btn-light "
-                            data-toggle="modal"
-                            data-target="#productFormModal"
                             data-id={this.props.rider.id}
                         >
+                            <a href={`${this.props.service}/${this.props.rider.id}`}>
                             <i className="fa fa-eye"/>
-                        </button>
+                            </a>
+                        </button> }
 
-                        <AnchorLink offset={() => 50} href="#map"
+                        { hasMap && <AnchorLink offset={() => 50} href="#map"
                             className="btn btn-light"
                             data-id={this.props.rider.id}
                             onClick={this.handleHighlight} >
 
                             <i className="fa fa-map-marker"/>
-                        </AnchorLink>
+                        </AnchorLink> }
 
                     </nav>
                 </td>
