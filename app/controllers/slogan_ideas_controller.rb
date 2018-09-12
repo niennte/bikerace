@@ -7,7 +7,7 @@ class SloganIdeasController < ApplicationController
     @slogan_idea = SloganIdea.new.extend(SloganIdeaForm).result
   end
 
-  # POST validate.json
+  # GET validate.json
   def validate
     respond_to do |format|
       # causes controller to return 304 not-modified if no valid params found

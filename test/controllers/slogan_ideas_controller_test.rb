@@ -15,6 +15,19 @@ class SloganIdeasControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should get validate as json" do
+    get validate_url, as: :json
+    assert_response :success
+  end
+
+  test "should get validate as json with params" do
+    get validate_url, as: :json, params: {
+      idea: ''
+    }
+    assert_response :success
+    assert_match("idea", response.parsed_body.to_s )
+  end
+
   test "should create slogan_idea" do
     assert_difference('SloganIdea.count') do
       post slogan_ideas_url, params: { slogan_idea: { email: @slogan_idea.email, first_name: @slogan_idea.first_name, idea: @slogan_idea.idea, last_name: @slogan_idea.last_name } }

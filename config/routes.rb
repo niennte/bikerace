@@ -6,7 +6,6 @@ Rails.application.routes.draw do
   resources :riders
   get '/list', to: 'riders#list'
   get '/riders-static', to: 'riders#static'
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   root 'onepage#home'
   get '/site', to: 'site#index'
