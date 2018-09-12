@@ -46,6 +46,8 @@ class RealTimeUpdates extends Component {
 
                 <section className="riders riders-container py-5">
                 <Riders
+                    hasLinks={true}
+                    service={this.props.service}
                     hasMap={true}
                     onHighlight={ this.handleHighlight }
                     riders={ this.props.riders } />

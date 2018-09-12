@@ -2,7 +2,6 @@ import React from "react"
 import styled from "styled-components";
 import ReactMapboxGl, { Layer, Feature, Popup } from "react-mapbox-gl";
 
-
 const token = "pk.eyJ1Ijoibmllbm50ZSIsImEiOiJjamo0ajE5aDgxajJhM2twZzB4cWRxNXFzIn0.wrH52IDoERpZGasQNOjUXg";
 
 const styles = {
@@ -222,7 +221,7 @@ class Map extends React.Component {
                                             #{rider.id}
                                         </span>
                                         <br/>
-                                        <a className="badge badge-info" href={this.SERVICE_PATH + '/' + rider.id}>
+                                        <a className="badge badge-info" href={`${this.SERVICE_PATH}/${rider.id}`}>
                                             {rider.name}
                                         </a>
                                         <br/>

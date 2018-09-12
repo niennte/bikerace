@@ -1,22 +1,25 @@
-<p id="notice"><%= notice %></p>
-<section class="py-5 container">
-
 <% @rider.extend(RiderView) %>
-<p>
-  <strong>Name:</strong>
-  <%= @rider.full_name %>
-</p>
+  <%= render 'shared/notifications', model: @rider  %>
 
-<p>
-  <strong>City of origin:</strong>
-  <%= @rider.city_of_origin %>
-</p>
+<section class="py-5 container <%= css_crud %>">
+  <div class="card crud" style="width: 25rem;">
 
-<p>
-  <strong>Location:</strong>
-  <%= @rider.current_location %>
-</p>
+    <h3 class="card-title text-center pb-2">Rider info:</h3>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item text-center">
+        <strong>Name:</strong>
+        <%= @rider.full_name %>
+      </li>
 
-<%= link_to 'Edit', edit_rider_path(@rider) %> |
-<%= link_to 'Back', riders_path %>
+      <li class="list-group-item text-center">
+        <strong>City of origin:</strong>
+        <%= @rider.city_of_origin %>
+      </li>
+
+      <nav class="nav justify-content-center">
+        <%= link_to 'Back', riders_path, :class => 'item nav-link border-left border-right'  %>
+      </nav>
+
+    </ul>
+  </div>
 </section>
